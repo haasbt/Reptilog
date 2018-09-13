@@ -2,7 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aws.codestar.projecttemplates</groupId>
-    <artifactId>ROOT</artifactId>
+    <artifactId>Reptilog</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
     <name>Sample Spring MVC Application Using AWS CodeStar</name>
@@ -59,6 +59,16 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <warSourceDirectory>src/main</warSourceDirectory>
+                    <warName>ROOT</warName>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
