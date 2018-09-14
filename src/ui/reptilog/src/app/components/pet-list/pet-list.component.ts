@@ -12,4 +12,8 @@ export class PetListComponent implements OnInit {
   ngOnInit() {
   }
 
+  doNothing() {
+
+  }
+
 }

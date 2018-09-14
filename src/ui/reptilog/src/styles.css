@@ -22,39 +22,16 @@
 .div-top-margin {
   margin-top: 25px;
 }
-.infinity-orange-text {
-  color: #ff781c;
-}
-.infinity-orange-bg {
-  background-color: #ff781c;
-}
-::-webkit-input-placeholder {
-  text-align: center;
-}
-:-moz-placeholder { /* Firefox 18- */
-  text-align: center;
-}
-::-moz-placeholder {  /* Firefox 19+ */
-  text-align: center;
-}
-:-ms-input-placeholder {
-  text-align: center;
-}
 input {
   text-align: center;
 }
 .custom-hide {
   display: none;
 }
-.btn.btn-warning, .btn.btn-warning:focus:active, .btn.btn-warning:focus  {
-  background-color: #ff781c;
-  border-color: #ff781c;
-}
-.btn.btn-warning:hover, .btn.btn-warning:disabled:hover, .btn.btn-warning:active:hover{
-  background-color: #ee670b;
-  border-color: #ee670b;
-}
 input.ng-invalid, select.ng-invalid{
   border: 1px solid red;
   border-left: 5px solid red;
+}
+.btn-top-margin {
+  margin-top: -10px;
 }
