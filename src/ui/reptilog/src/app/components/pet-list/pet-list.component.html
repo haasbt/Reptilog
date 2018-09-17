@@ -4,7 +4,7 @@
       <br>
       <fieldset>
         <div class="float-left">
-          <h5>{{p.name}}</h5>
+          <h4>{{p.name}}</h4>
         </div>
         <div class="float-right btn-top-margin dropdown">
           <a class="btn btn-warning">View</a>
@@ -17,6 +17,27 @@
           </ul>
         </div>
       </fieldset>
+    </div>
+  </div>
+</div>
+<div *ngIf="pets.length === 0">
+  <div class="col-xs-12 bordered bg-white  text-center">
+    <h3>Add a pet to get started!</h3>
+  </div>
+</div>
+<div>
+  <a class="col col-xs-10 text-center div-bottom-padding btn btn-primary" data-toggle="modal" data-target="#addModal">Add Pet</a>
+</div>
+
+<div id="addModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg bg-white">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h2>Add a Pet</h2>
+      </div>
+      <div class="modal-body">
+        <app-add-pet></app-add-pet>
+      </div>
     </div>
   </div>
 </div>

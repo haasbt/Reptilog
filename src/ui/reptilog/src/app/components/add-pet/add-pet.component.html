@@ -1,0 +1,29 @@
+<div class="text-center">
+  <form formGroup="petForm" novalidate>
+    <fieldset class="form-group">
+      <label for="name">Name *</label>
+      <input class="form-control" type="text" id="name" formControlName="name" placeholder="Name">
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="type">Species *</label>
+      <input class="form-control" type="text" id="type" formControlName="Type" placeholder="Species">
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="morph">Morph</label>
+      <input class="form-control" type="text" id="morph" formControlName="morph" placeholder="Morph">
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="hatchDate">Hatch Date</label>
+      <input class="form-control" type="date" id="hatchDate" formControlName="hatchDate">
+    </fieldset>
+  </form>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+<a class="btn btn-danger btn-block">Cancel</a>
+  </div>
+  <div class="col">
+<button class="btn btn-success btn-block" [disabled]="!petForm.valid">Submit</button>
+  </div>
+</div>

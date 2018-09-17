@@ -79,6 +79,10 @@ MIT
 MIT
 MIT
 
+@angular/forms@5.2.11
+MIT
+MIT
+
 css-loader@0.28.11
 MIT
 Copyright JS Foundation and other contributors
