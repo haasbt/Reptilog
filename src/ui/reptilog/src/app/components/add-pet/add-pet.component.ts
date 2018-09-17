@@ -23,6 +23,7 @@ export class AddPetComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.new = true;
   }
 
 }
