@@ -1,4 +1,7 @@
-
+.page-padding {
+  padding-right: 5%;
+  padding-left: 5%;
+}
 .navbar-shadow {
   -webkit-box-shadow: 0 5px 5px 0px #AAA;
   -moz-box-shadow:    0 5px 5px 0px #AAA;
