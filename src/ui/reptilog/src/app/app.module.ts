@@ -7,6 +7,8 @@ import { PetComponent } from './components/pet/pet.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PetListComponent } from './components/pet-list/pet-list.component';
 import {AppRoutingModule} from "./app-routing.module";
+import {PetService} from "./services/pet.service";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -18,9 +20,10 @@ import {AppRoutingModule} from "./app-routing.module";
   ],
   imports: [
     AppRoutingModule,
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [PetService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
