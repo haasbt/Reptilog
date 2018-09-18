@@ -2,23 +2,26 @@ package com.aws.codestar.reptilog.controller;
 
 import com.aws.codestar.reptilog.domain.Pet;
 import com.aws.codestar.reptilog.repository.PetRepository;
+import com.aws.codestar.reptilog.service.PetService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.json.simple.JSONObject;
 
 @Controller
 public class ServiceController {
 
     private PetRepository petRepo;
+    private PetService petService;
 
-    public ServiceController(PetRepository petRepo) {
+    public ServiceController(PetRepository petRepo, PetService petService) {
         this.petRepo = petRepo;
+        this.petService = petService;
     }
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
@@ -29,6 +32,20 @@ public class ServiceController {
     @RequestMapping(value = "/api/get-pets/{userId}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Pet> getPets(HttpServletRequest request, @PathVariable("userId") int userId) {
         return petRepo.getByUserId(userId);
+    }
+
+    @RequestMapping(value = "api/create-pet", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody Map createPet(HttpServletRequest request, @RequestBody JSONObject json) {
+        Map<String, Object> response = new HashMap<>();
+        //try {
+            Pet pet = petService.createPet(json);
+            response.put("success", true);
+            response.put("petId", pet.getId());
+        //} catch (Exception e) {
+            //response.put("success", false);
+            //response.put("errorMessage", e.toString());
+        //}
+        return response;
     }
 
 }

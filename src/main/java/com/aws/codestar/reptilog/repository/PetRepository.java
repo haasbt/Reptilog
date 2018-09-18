@@ -3,7 +3,10 @@ package com.aws.codestar.reptilog.repository;
 import com.aws.codestar.reptilog.domain.Pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -25,11 +28,11 @@ public class PetRepository {
     static {
 
         insertSql = "insert into pets\n" +
-                "(user_id, pet_type, pet_name, hatch_date, pet_image, color, morph)\n" +
+                "(user_id, pet_type, pet_name, hatch_date, pet_image, color, morph, notes)\n" +
                 "values\n" +
-                "(:userId, :petType, :petName, :hatchDate, :petImage, :color, :morph)";
+                "(:userId, :petType, :petName, to_date(:hatchDate, 'YYYY-MM-DD'), :petImage, :color, :morph, :notes)";
 
-        getSql = "select pet_id, pet_type, pet_name, hatch_date, pet_image, color, morph\n" +
+        getSql = "select pet_id, pet_type, pet_name, hatch_date, pet_image, color, morph, status, notes\n" +
                 "from pets\n" +
                 "where user_id = :userId";
 
@@ -40,6 +43,23 @@ public class PetRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("userId", userId);
         return jdbcTemplate.query(getSql, params, new PetRowMapper());
+    }
+
+    public int insert(Pet pet) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("userId", pet.getUserId())
+                .addValue("petType", pet.getType())
+                .addValue("petName", pet.getName())
+                .addValue("hatchDate", pet.getHatchDate())
+                .addValue("petImage", pet.getImage())
+                .addValue("color", pet.getColor())
+                .addValue("morph", pet.getMorph())
+                .addValue("notes", pet.getNotes());
+
+        jdbcTemplate.update(insertSql, parameters, keyHolder, new String[]{"pet_id"});
+        return Integer.valueOf(keyHolder.getKeys().get(keyHolder.getKeys().keySet().toArray()[0]).toString());
     }
 
     private class PetRowMapper implements RowMapper<Pet> {
@@ -54,6 +74,8 @@ public class PetRepository {
             pet.setImage(rs.getBytes("pet_image"));
             pet.setColor(rs.getString("color"));
             pet.setMorph(rs.getString("morph"));
+            pet.setStatus(rs.getString("status"));
+            pet.setNotes(rs.getString("notes"));
             return pet;
         }
     }

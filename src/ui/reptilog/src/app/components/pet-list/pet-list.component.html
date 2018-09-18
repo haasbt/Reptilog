@@ -36,7 +36,7 @@
         <h2>Add a Pet</h2>
       </div>
       <div class="modal-body">
-        <app-add-pet></app-add-pet>
+        <app-add-pet (created)="petCreated($event)"></app-add-pet>
       </div>
     </div>
   </div>

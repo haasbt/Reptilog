@@ -3,12 +3,15 @@ package com.aws.codestar.reptilog.domain;
 public class Pet {
 
     private int id;
+    private int userId;
     private String type;
     private String name;
     private String hatchDate;
     private byte[] image;
     private String color;
     private String morph;
+    private String status;
+    private String notes;
 
     public int getId() {
         return id;
@@ -17,6 +20,10 @@ public class Pet {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getUserId() {return userId; }
+
+    public void setUserId(int userId) { this.userId = userId; }
 
     public String getType() {
         return type;
@@ -64,5 +71,21 @@ public class Pet {
 
     public void setMorph(String morph) {
         this.morph = morph;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

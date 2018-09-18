@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PetService} from "../../services/pet.service";
 
 @Component({
@@ -7,6 +7,7 @@ import {PetService} from "../../services/pet.service";
   styleUrls: ['./pet-list.component.css']
 })
 export class PetListComponent implements OnInit {
+
   pets: any[];
   userId: number;
 
@@ -16,6 +17,10 @@ export class PetListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.refresh();
+  }
+
+  refresh() {
     this.petService.getPets(this.userId).subscribe(resp => {
       if (resp) {
         this.pets = resp;
@@ -23,8 +28,11 @@ export class PetListComponent implements OnInit {
     });
   }
 
-  doNothing() {
-
+  petCreated(event) {
+    if (event === true) {
+      console.log('refreshing');
+      this.refresh();
+    }
   }
 
 }

@@ -19,4 +19,9 @@ export class PetService {
     let endpoint = '/api/get-pets/' + userId;
     return this.http.get(endpoint, this.httpOptions);
   }
+
+  addPet(petInfo: any): Observable<any> {
+    const endpoint = 'api/create-pet';
+    return this.http.post(endpoint, petInfo, this.httpOptions);
+  }
 }

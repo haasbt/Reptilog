@@ -10,7 +10,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {PetService} from "./services/pet.service";
 import {HttpClientModule} from "@angular/common/http";
 import { AddPetComponent } from './components/add-pet/add-pet.component';
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -24,7 +24,8 @@ import {FormBuilder} from "@angular/forms";
   imports: [
     AppRoutingModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     PetService,

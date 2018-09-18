@@ -1,12 +1,12 @@
 <div class="text-center">
-  <form formGroup="petForm" novalidate>
+  <form [formGroup]="petForm" novalidate>
     <fieldset class="form-group">
       <label for="name">Name *</label>
       <input class="form-control" type="text" id="name" formControlName="name" placeholder="Name">
     </fieldset>
     <fieldset class="form-group">
       <label for="type">Species *</label>
-      <input class="form-control" type="text" id="type" formControlName="Type" placeholder="Species">
+      <input class="form-control" type="text" id="type" formControlName="type" placeholder="Species">
     </fieldset>
     <fieldset class="form-group">
       <label for="morph">Morph</label>
@@ -21,9 +21,10 @@
 <br>
 <div class="row">
   <div class="col">
-<a class="btn btn-danger btn-block">Cancel</a>
+<a #closeModal class="btn btn-danger btn-block" data-dismiss="modal">Cancel</a>
   </div>
   <div class="col">
-<button class="btn btn-success btn-block" [disabled]="!petForm.valid">Submit</button>
+<button class="btn btn-success btn-block" (click)="submit()" [disabled]="!petForm.valid">Submit</button>
+
   </div>
 </div>
