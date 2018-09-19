@@ -1,8 +1,14 @@
 <div class="text-center">
   <form [formGroup]="petForm" novalidate>
     <fieldset class="form-group">
-      <label for="name">Name *</label>
       <input class="form-control" type="text" id="name" formControlName="name" placeholder="Name">
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="image">
+        <img class="image-dimensions" [src]="photo">
+      </label>
+      <input class="custom-hide" type="file" accept="image/jpg, image/jpeg" capture="capture" id="image" (change)="onFileChange($event.target.files[0])">
+      <label for="image" class="btn btn-warning btn-block">Upload Image</label>
     </fieldset>
     <fieldset class="form-group">
       <label for="type">Species *</label>
@@ -26,10 +32,6 @@
     <fieldset class="form-group">
       <label for="notes">Notes</label>
       <textarea class="form-control" id="notes" formControlName="notes"></textarea>
-    </fieldset>
-    <fieldset class="form-group">
-      <label for="image">Image</label>
-      <input class="form-control" type="file" accept="image/jpg, image/jpeg" capture="capture" id="image" (change)="onFileChange($event.target.files[0])">
     </fieldset>
   </form>
 </div>

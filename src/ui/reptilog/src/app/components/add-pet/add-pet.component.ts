@@ -14,6 +14,7 @@ export class AddPetComponent implements OnInit {
   @ViewChild('closeModal') closeModal: ElementRef;
   petForm: FormGroup;
   new: boolean;
+  photo: any;
 
   constructor(private fb: FormBuilder, private petService: PetService) {
     this.petForm = this.fb.group({
@@ -30,6 +31,7 @@ export class AddPetComponent implements OnInit {
 
   ngOnInit() {
     this.new = true;
+    this.photo = '';
   }
 
   submit() {
@@ -44,7 +46,8 @@ export class AddPetComponent implements OnInit {
   onFileChange(image: any){
       let reader = new FileReader();
       reader.onload = (e: any) => {
-        this.petForm.controls.image.setValue(e.target.result);
+        this.photo = e.target.result;
+        this.petForm.controls.image.setValue(this.photo);
       };
       reader.readAsDataURL(image);
     }
