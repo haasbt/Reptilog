@@ -6,7 +6,10 @@
     </fieldset>
     <fieldset class="form-group">
       <label for="type">Species *</label>
-      <input class="form-control" type="text" id="type" formControlName="type" placeholder="Species">
+      <select class="form-control" type="text" id="type" formControlName="type">
+        <option value="" disabled selected hidden>Select Species...</option>
+        <option value="Leopard Gecko">Leopard Gecko</option>
+      </select>
     </fieldset>
     <fieldset class="form-group">
       <label for="morph">Morph</label>
@@ -15,6 +18,18 @@
     <fieldset class="form-group">
       <label for="hatchDate">Hatch Date</label>
       <input class="form-control" type="date" id="hatchDate" formControlName="hatchDate">
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="color">Color</label>
+      <input class="form-control" type="color" id="color" formControlName="color">
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="notes">Notes</label>
+      <textarea class="form-control" id="notes" formControlName="notes"></textarea>
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="image">Image</label>
+      <input class="form-control" type="file" accept="image/jpg, image/jpeg" capture="capture" id="image" (change)="onFileChange($event.target.files[0])">
     </fieldset>
   </form>
 </div>

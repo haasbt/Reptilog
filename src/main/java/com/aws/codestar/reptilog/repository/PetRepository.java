@@ -32,7 +32,7 @@ public class PetRepository {
                 "values\n" +
                 "(:userId, :petType, :petName, to_date(:hatchDate, 'YYYY-MM-DD'), :petImage, :color, :morph, :notes)";
 
-        getSql = "select pet_id, pet_type, pet_name, hatch_date, pet_image, color, morph, status, notes\n" +
+        getSql = "select pet_id, pet_type, pet_name, hatch_date, color, morph, status, notes\n" +
                 "from pets\n" +
                 "where user_id = :userId";
 
@@ -71,7 +71,6 @@ public class PetRepository {
             pet.setType(rs.getString("pet_type"));
             pet.setName(rs.getString("pet_name"));
             pet.setHatchDate(rs.getString("hatch_date"));
-            pet.setImage(rs.getBytes("pet_image"));
             pet.setColor(rs.getString("color"));
             pet.setMorph(rs.getString("morph"));
             pet.setStatus(rs.getString("status"));

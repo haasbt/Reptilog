@@ -21,10 +21,10 @@ export class AddPetComponent implements OnInit {
       name: ['', Validators.required],
       type: ['', Validators.required],
       hatchDate: [''],
-      image: [''],
       color: [''],
       morph: [''],
-      notes: ['']
+      notes: [''],
+      image: ['']
     });
   }
 
@@ -40,4 +40,12 @@ export class AddPetComponent implements OnInit {
       }
     });
   }
+
+  onFileChange(image: any){
+      let reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.petForm.controls.image.setValue(e.target.result);
+      };
+      reader.readAsDataURL(image);
+    }
 }
