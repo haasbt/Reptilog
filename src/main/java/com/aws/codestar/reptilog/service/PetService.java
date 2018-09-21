@@ -42,6 +42,7 @@ public class PetService {
         pet.setMorph(getStrVal(json, "morph"));
         pet.setStatus(getStrVal(json, "status"));
         pet.setNotes(getStrVal(json, "notes"));
+        pet.setSize(getStrVal(json, "size"));
         return pet;
     }
 }

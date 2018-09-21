@@ -7,7 +7,7 @@
           <h4>{{p.name}}</h4>
         </div>
         <div class="float-right btn-top-margin dropdown">
-          <a class="btn btn-warning">View</a>
+          <a class="btn btn-warning" (click)="goToPet(p.id)">View</a>
           <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Quick Actions
             <span class="caret"></span> </a>
           <ul class="dropdown-menu">

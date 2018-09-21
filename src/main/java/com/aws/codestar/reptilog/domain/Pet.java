@@ -12,6 +12,7 @@ public class Pet {
     private String morph;
     private String status;
     private String notes;
+    private String size;
 
     public int getId() {
         return id;
@@ -88,4 +89,8 @@ public class Pet {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    public String getSize() { return size; }
+
+    public void setSize(String size) { this.size = size; }
 }

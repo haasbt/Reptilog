@@ -22,19 +22,24 @@ public class PetRepository {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     static final String insertSql;
-    static final String getSql;
+    static final String getByUserSql;
+    static final String getByPetSql;
     static final String updateSql;
 
     static {
 
         insertSql = "insert into pets\n" +
-                "(user_id, pet_type, pet_name, hatch_date, pet_image, color, morph, notes)\n" +
+                "(user_id, pet_type, pet_name, hatch_date, pet_image, color, morph, notes, size)\n" +
                 "values\n" +
-                "(:userId, :petType, :petName, to_date(:hatchDate, 'YYYY-MM-DD'), :petImage, :color, :morph, :notes)";
+                "(:userId, :petType, :petName, to_date(:hatchDate, 'YYYY-MM-DD'), :petImage, :color, :morph, :notes, :size)";
 
-        getSql = "select pet_id, pet_type, pet_name, hatch_date, color, morph, status, notes\n" +
+        getByUserSql = "select pet_id, pet_type, pet_name, hatch_date, color, morph, status, notes, null as pet_image, size\n" +
                 "from pets\n" +
                 "where user_id = :userId";
+
+        getByPetSql = "select pet_id, pet_type, pet_name, hatch_date, color, morph, status, notes, pet_image, size\n" +
+                "from pets\n" +
+                "where pet_id = :petId";
 
         updateSql = "";
     }
@@ -42,7 +47,13 @@ public class PetRepository {
     public List<Pet> getByUserId(int userId) {
         Map<String, Object> params = new HashMap<>();
         params.put("userId", userId);
-        return jdbcTemplate.query(getSql, params, new PetRowMapper());
+        return jdbcTemplate.query(getByUserSql, params, new PetRowMapper());
+    }
+
+    public Pet getByPetId(int petId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("petId", petId);
+        return jdbcTemplate.queryForObject(getByPetSql, params, new PetRowMapper());
     }
 
     public int insert(Pet pet) {
@@ -56,7 +67,8 @@ public class PetRepository {
                 .addValue("petImage", pet.getImage())
                 .addValue("color", pet.getColor())
                 .addValue("morph", pet.getMorph())
-                .addValue("notes", pet.getNotes());
+                .addValue("notes", pet.getNotes())
+                .addValue("size", pet.getSize());
 
         jdbcTemplate.update(insertSql, parameters, keyHolder, new String[]{"pet_id"});
         return Integer.valueOf(keyHolder.getKeys().get(keyHolder.getKeys().keySet().toArray()[0]).toString());
@@ -75,6 +87,8 @@ public class PetRepository {
             pet.setMorph(rs.getString("morph"));
             pet.setStatus(rs.getString("status"));
             pet.setNotes(rs.getString("notes"));
+            pet.setImage(rs.getBytes("pet_image"));
+            pet.setSize(rs.getString("size"));
             return pet;
         }
     }

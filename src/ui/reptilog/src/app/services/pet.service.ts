@@ -20,6 +20,11 @@ export class PetService {
     return this.http.get(endpoint, this.httpOptions);
   }
 
+  getPet(petId: number): Observable<any> {
+    let endpoint = '/api/get-pet/' + petId;
+    return this.http.get(endpoint, this.httpOptions);
+  }
+
   addPet(petInfo: any): Observable<any> {
     const endpoint = 'api/create-pet';
     return this.http.post(endpoint, petInfo, this.httpOptions);

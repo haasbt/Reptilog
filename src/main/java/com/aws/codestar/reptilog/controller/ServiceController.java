@@ -24,7 +24,7 @@ public class ServiceController {
         this.petService = petService;
     }
 
-    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/pet/*"}, method = RequestMethod.GET)
     public String home() {
         return "forward:index.html";
     }
@@ -46,6 +46,11 @@ public class ServiceController {
             //response.put("errorMessage", e.toString());
         //}
         return response;
+    }
+
+    @RequestMapping(value = "/api/get-pet/{petId}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Pet getPet(HttpServletRequest request, @PathVariable("petId") int petId) {
+        return petRepo.getByPetId(petId);
     }
 
 }

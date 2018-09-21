@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PetService} from "../../services/pet.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-pet-list',
@@ -11,7 +12,7 @@ export class PetListComponent implements OnInit {
   pets: any[];
   userId: number;
 
-  constructor(private petService: PetService) {
+  constructor(private petService: PetService, private router: Router) {
     this.pets = [];
     this.userId = 1;
   }
@@ -33,6 +34,10 @@ export class PetListComponent implements OnInit {
       console.log('refreshing');
       this.refresh();
     }
+  }
+
+  goToPet(petId: number) {
+    this.router.navigate(['pet', petId]);
   }
 
 }

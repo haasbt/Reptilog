@@ -24,6 +24,7 @@ export class AddPetComponent implements OnInit {
       hatchDate: [''],
       color: [''],
       morph: [''],
+      size: [''],
       notes: [''],
       image: ['']
     });
