@@ -1,6 +1,7 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PetService} from "../../services/pet.service";
+import {AwsService} from "../../services/aws.service";
 
 @Component({
   selector: 'app-add-pet',
@@ -13,10 +14,11 @@ export class AddPetComponent implements OnInit {
   created = new EventEmitter<boolean>();
   @ViewChild('closeModal') closeModal: ElementRef;
   petForm: FormGroup;
-  new: boolean;
   photo: any;
+  imageUpload: any;
+  petId: number;
 
-  constructor(private fb: FormBuilder, private petService: PetService) {
+  constructor(private fb: FormBuilder, private petService: PetService, private awsService: AwsService) {
     this.petForm = this.fb.group({
       userId: ['1'],
       name: ['', Validators.required],
@@ -31,13 +33,14 @@ export class AddPetComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.new = true;
     this.photo = './assets/images/default-pic.png';
   }
 
   submit() {
     this.petService.addPet(this.petForm.value).subscribe(resp => {
       if (resp && resp.success === true) {
+        this.petId = resp.petId;
+        this.awsService.uploadToAWS(this.petId, this.imageUpload)
         this.created.emit(true);
         this.closeModal.nativeElement.click();
       }
@@ -48,7 +51,8 @@ export class AddPetComponent implements OnInit {
       let reader = new FileReader();
       reader.onload = (e: any) => {
         this.photo = e.target.result;
-        this.petForm.controls.image.setValue(this.photo);
+        this.imageUpload = image;
+        this.petForm.controls.image.setValue(image.name);
       };
       reader.readAsDataURL(image);
     }

@@ -35,9 +35,7 @@ public class PetService {
         pet.setName(getStrVal(json, "name"));
         pet.setType(getStrVal(json, "type"));
         pet.setHatchDate(getStrVal(json, "hatchDate"));
-        if (getStrVal(json, "image") != null) {
-            pet.setImage(getStrVal(json, "image").getBytes());
-        }
+        pet.setImage(getStrVal(json, "image"));
         pet.setColor(getStrVal(json, "color"));
         pet.setMorph(getStrVal(json, "morph"));
         pet.setStatus(getStrVal(json, "status"));

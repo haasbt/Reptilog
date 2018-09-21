@@ -10,7 +10,7 @@ import {PetService} from "../../services/pet.service";
 export class PetComponent implements OnInit {
 
   petId: number;
-  photo: any;
+  pet: any;
 
   constructor(private route: ActivatedRoute, private petService: PetService) {
   }
@@ -27,7 +27,7 @@ export class PetComponent implements OnInit {
   getPet() {
     this.petService.getPet(this.petId).subscribe(resp => {
       if (resp) {
-        this.photo = atob(resp.image);
+        this.pet = resp;
       }
     });
   }

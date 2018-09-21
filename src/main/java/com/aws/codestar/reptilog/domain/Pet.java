@@ -7,7 +7,7 @@ public class Pet {
     private String type;
     private String name;
     private String hatchDate;
-    private byte[] image;
+    private String image;
     private String color;
     private String morph;
     private String status;
@@ -50,11 +50,11 @@ public class Pet {
         this.hatchDate = hatchDate;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

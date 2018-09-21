@@ -11,6 +11,7 @@ import {PetService} from "./services/pet.service";
 import {HttpClientModule} from "@angular/common/http";
 import { AddPetComponent } from './components/add-pet/add-pet.component';
 import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {AwsService} from "./services/aws.service";
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
   ],
   providers: [
     PetService,
+    AwsService,
     FormBuilder
   ],
   bootstrap: [AppComponent]
