@@ -7,7 +7,7 @@
       <label for="image">
         <img class="image-dimensions" [src]="photo">
       </label>
-      <input class="custom-hide" type="file" accept="image/jpg, image/jpeg" capture="capture" id="image" (change)="onFileChange($event.target.files[0])">
+      <input class="custom-hide" type="file" accept="image/jpg, image/jpeg, image/png" capture="capture" id="image" (change)="onFileChange($event.target.files[0])">
       <label for="image" class="btn btn-warning btn-block">Upload Image</label>
     </fieldset>
     <fieldset class="form-group">

@@ -31,7 +31,7 @@ export class AddPetComponent implements OnInit {
 
   ngOnInit() {
     this.new = true;
-    this.photo = '';
+    this.photo = './assets/images/default-pic.png';
   }
 
   submit() {
