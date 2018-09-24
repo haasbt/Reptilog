@@ -36,6 +36,6 @@ input.ng-invalid, select.ng-invalid{
   margin-top: -10px;
 }
 .image-dimensions {
-  max-height: 250px;
+  max-height: 300px;
   max-width: 100%;
 }
