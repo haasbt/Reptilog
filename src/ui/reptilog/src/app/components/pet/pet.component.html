@@ -1,21 +1,15 @@
 <div class="col col-xs-10 text-center div-bottom-padding bordered bg-white">
-  <div class="row">
-    <div class="col col-xs-5">
-      <div class="image-padding">
+  <h2>{{pet.name}}</h2>
+  <h4><span *ngIf="pet.size">{{pet.size}} </span><span *ngIf="pet.morph">{{pet.morph}} </span>{{pet.type}}</h4>
+  <div>
         <img *ngIf="pet" class="image-dimensions"
              src="https://s3.us-east-2.amazonaws.com/reptilog-images/images/{{petId}}/{{pet.image}}">
+    <div class="row">
+      <div class="col" style="text-align: left">
+        <h6>Last Weight: Unknown</h6>
       </div>
-    </div>
-    <div *ngIf="pet" class="col col-xs-5">
-      <div>
-        <h3>{{pet.name}}</h3>
-      </div>
-      <hr>
-      <div style="text-align: left">
-        <h6>Species: {{pet.type}}</h6>
-        <h6 *ngIf="pet.size">Size: {{pet.size}}</h6>
-        <h6>Morph: {{pet.morph || "Unknown"}}</h6>
-        <h6>Hatch Date: {{pet.hatchDate || "Unknown"}}</h6>
+      <div class="col" style="text-align: right">
+        <h6>Last Length: Unknown</h6>
       </div>
     </div>
   </div>
