@@ -2,8 +2,9 @@
   <h2>{{pet.name}}</h2>
   <h4><span *ngIf="pet.size">{{pet.size}} </span><span *ngIf="pet.morph">{{pet.morph}} </span>{{pet.type}}</h4>
   <div>
-        <img *ngIf="pet"
-             src="https://s3.us-east-2.amazonaws.com/reptilog-images/images/{{petId}}/{{pet.image}}" height="100%" width="100%">
+    <img *ngIf="pet"
+         src="https://s3.us-east-2.amazonaws.com/reptilog-images/images/{{petId}}/{{pet.image}}" height="100%"
+         width="100%">
     <div class="row">
       <div class="col" style="text-align: left">
         <h6>Last Weight: Unknown</h6>
