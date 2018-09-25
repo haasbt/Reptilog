@@ -11,8 +11,12 @@ export class PetComponent implements OnInit {
 
   petId: number;
   pet: any;
+  photo: any;
+  editingNotes: boolean;
 
   constructor(private route: ActivatedRoute, private petService: PetService) {
+    this.photo = './assets/images/default-pic.png';
+    this.editingNotes = false;
   }
 
   ngOnInit() {
@@ -28,8 +32,15 @@ export class PetComponent implements OnInit {
     this.petService.getPet(this.petId).subscribe(resp => {
       if (resp) {
         this.pet = resp;
+        if (this.pet.image) {
+          this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.pet.image;
+        }
       }
     });
+  }
+
+  toggleNoteEdit() {
+    this.editingNotes = !this.editingNotes;
   }
 
 }
