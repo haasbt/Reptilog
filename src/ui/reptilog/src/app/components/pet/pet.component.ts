@@ -39,6 +39,10 @@ export class PetComponent implements OnInit {
     });
   }
 
+  petEdited(event) {
+
+  }
+
   toggleNoteEdit() {
     this.editingNotes = !this.editingNotes;
   }

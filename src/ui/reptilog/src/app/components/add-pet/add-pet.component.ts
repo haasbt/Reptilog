@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PetService} from "../../services/pet.service";
 import {AwsService} from "../../services/aws.service";
@@ -12,27 +12,39 @@ export class AddPetComponent implements OnInit {
 
   @Output()
   created = new EventEmitter<boolean>();
+
   @ViewChild('closeModal') closeModal: ElementRef;
+
   petForm: FormGroup;
   photo: any;
   imageUpload: any;
-  petId: number;
+
+  @Input('petId') petId: number;
+  @Input('petName') petName: string;
+  @Input('petType') petType: string;
+  @Input('hatchDate') hatchDate: string;
+  @Input('petColor') petColor: string;
+  @Input('morph') morph: string;
+  @Input('petSize') petSize: string;
+  @Input('notes') notes: string;
+  @Input('image') image: string;
 
   constructor(private fb: FormBuilder, private petService: PetService, private awsService: AwsService) {
-    this.petForm = this.fb.group({
-      userId: ['1'],
-      name: ['', Validators.required],
-      type: ['', Validators.required],
-      hatchDate: [''],
-      color: [''],
-      morph: [''],
-      size: [''],
-      notes: [''],
-      image: ['']
-    });
+
   }
 
   ngOnInit() {
+    this.petForm = this.fb.group({
+      userId: ['1'],
+      name: [this.petName || '', Validators.required],
+      type: [this.petType || '', Validators.required],
+      hatchDate: [this.hatchDate || ''],
+      color: [this.petColor || ''],
+      morph: [this.morph || ''],
+      size: [this.petSize || ''],
+      notes: [this.notes || ''],
+      image: [this.image || '']
+    });
     this.photo = './assets/images/default-pic.png';
   }
 
