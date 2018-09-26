@@ -1,7 +1,8 @@
 <div *ngIf="pet">
   <div class="col col-xs-10 text-center div-bottom-padding bordered bg-white">
-    <h2>{{pet.name}}</h2>
-    <h4><span *ngIf="pet.size">{{pet.size}} </span><span *ngIf="pet.morph">{{pet.morph}} </span>{{pet.type}}</h4>
+    <h1 class="text-left">{{pet.name}}</h1>
+    <h4 class="text-left"><span *ngIf="pet.size">{{pet.size}} </span><span *ngIf="pet.morph">{{pet.morph}} </span>{{pet.type}}
+    </h4>
     <div>
       <img
         src="{{photo}}"
@@ -15,9 +16,7 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="col col-xs-10 text-center div-bottom-padding bordered bg-white">
-    <h3 class="text-left">Record Event</h3>
+
     <div class="row">
       <a class="col mr-2 ml-2 btn btn-secondary">F</a>
       <a class="col mr-2 btn btn-secondary">S</a>
@@ -27,15 +26,12 @@
     </div>
   </div>
   <div class="col col-xs-10 text-center div-bottom-padding bordered bg-white">
-    <h3 class="text-left">Notes</h3>
-    <textarea [readonly]="!editingNotes" style="width: 100%; height: 100%">{{pet.notes}}</textarea>
+    <h5 class="text-left">Notes</h5>
+    <textarea #notes [readonly]="!editingNotes" style="width: 100%; height: 100%">{{pet.notes}}</textarea>
     <a *ngIf="!editingNotes" class="btn btn-block btn-warning" (click)="toggleNoteEdit()">Edit Notes</a>
     <div *ngIf="editingNotes" class="row">
-      <div class="col-xs-5 float-left">
-        <a class="btn btn-block btn-danger" (click)="toggleNoteEdit()">Cancel Edit</a>
-      </div>
-      <div class="col-xs-5 float-right"></div>
-      <a class="btn btn-block btn-success">Save Notes</a>
+        <a class="col mr-2 ml-3 btn btn-danger" (click)="toggleNoteEdit()">Cancel Edit</a>
+        <a class="col mr-3 btn btn-success">Save Notes</a>
     </div>
   </div>
 </div>
