@@ -11,14 +11,11 @@
       <img
         src="{{photo}}"
         width="100%" [style.border-color]="pet.color || 'black'" style="max-height: 300px">
-      <div class="row">
-        <div class="col" style="text-align: left">
-          <h6>Last Weight: Unknown</h6>
-        </div>
-        <div class="col" style="text-align: right">
-          <h6>Last Length: Unknown</h6>
-        </div>
-      </div>
+      <h6 class="text-left">Hatch Date: {{pet.hatchDate || 'Unknown'}}</h6>
+      <h6 class="text-left">Last Weight: Unknown</h6>
+
+      <h6 class="text-left">Last Length: Unknown</h6>
+
     </div>
 
     <div class="row">
