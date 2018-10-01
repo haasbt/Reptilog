@@ -42,7 +42,9 @@ public class PetRepository {
                 "from pets\n" +
                 "where pet_id = :petId";
 
-        updateSql = "";
+        updateSql = "update pets\n" +
+                "set pet_type = :petType, pet_name = :petName, hatch_date = :hatchDate, pet_image = :image, color = :color, morph = :morph, notes = :notes, size = :size\n" +
+                "where pet_id = :petId";
 
         updateNotesSql = "update pets\n" +
                 "set notes = :notes\n" +
@@ -77,6 +79,21 @@ public class PetRepository {
 
         jdbcTemplate.update(insertSql, parameters, keyHolder, new String[]{"pet_id"});
         return Integer.valueOf(keyHolder.getKeys().get(keyHolder.getKeys().keySet().toArray()[0]).toString());
+    }
+
+    public void update(Pet pet) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("petType", pet.getType())
+                .addValue("petName", pet.getName())
+                .addValue("hatchDate", pet.getHatchDate())
+                .addValue("petImage", pet.getImage())
+                .addValue("color", pet.getColor())
+                .addValue("morph", pet.getMorph())
+                .addValue("notes", pet.getNotes())
+                .addValue("size", pet.getSize())
+                .addValue("petId", pet.getId());
+
+        jdbcTemplate.update(updateSql, parameters);
     }
 
     public void updateNotes(int petId, String notes) {

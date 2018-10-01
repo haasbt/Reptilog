@@ -33,6 +33,12 @@ public class PetService {
         petRepository.updateNotes(petId, notes);
     }
 
+    @Transactional
+    public void updatePet(Map json) {
+        Pet pet = processPet(json);
+        petRepository.update(pet);
+    }
+
     private Pet processPet(Map json) {
         Pet pet = new Pet();
         if (getIntegerVal(json, "petId") != null) {

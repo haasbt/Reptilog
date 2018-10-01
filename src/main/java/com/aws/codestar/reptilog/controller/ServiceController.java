@@ -60,4 +60,12 @@ public class ServiceController {
         response.put("success", true);
         return response;
     }
+
+    @RequestMapping(value = "/api/update-pet", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody Map updatePet(HttpServletRequest request, @RequestBody JSONObject json) {
+        Map<String, Object> response = new HashMap<>();
+        petService.updatePet(json);
+        response.put("success", true);
+        return response;
+    }
 }
