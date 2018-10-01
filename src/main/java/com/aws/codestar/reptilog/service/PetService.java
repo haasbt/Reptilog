@@ -26,6 +26,13 @@ public class PetService {
         return pet;
     }
 
+    @Transactional
+    public void updateNotes(Map json) {
+        int petId = getIntegerVal(json, "petId");
+        String notes = getStrVal(json, "notes");
+        petRepository.updateNotes(petId, notes);
+    }
+
     private Pet processPet(Map json) {
         Pet pet = new Pet();
         if (getIntegerVal(json, "petId") != null) {

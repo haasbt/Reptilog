@@ -53,4 +53,11 @@ public class ServiceController {
         return petRepo.getByPetId(petId);
     }
 
+    @RequestMapping(value = "/api/update-notes", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody Map updateNotes(HttpServletRequest request, @RequestBody JSONObject json) {
+        Map<String, Object> response = new HashMap<>();
+        petService.updateNotes(json);
+        response.put("success", true);
+        return response;
+    }
 }

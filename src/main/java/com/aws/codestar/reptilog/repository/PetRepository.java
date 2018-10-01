@@ -25,6 +25,7 @@ public class PetRepository {
     static final String getByUserSql;
     static final String getByPetSql;
     static final String updateSql;
+    static final String updateNotesSql;
 
     static {
 
@@ -42,6 +43,10 @@ public class PetRepository {
                 "where pet_id = :petId";
 
         updateSql = "";
+
+        updateNotesSql = "update pets\n" +
+                "set notes = :notes\n" +
+                "where pet_id = :petId";
     }
 
     public List<Pet> getByUserId(int userId) {
@@ -72,6 +77,13 @@ public class PetRepository {
 
         jdbcTemplate.update(insertSql, parameters, keyHolder, new String[]{"pet_id"});
         return Integer.valueOf(keyHolder.getKeys().get(keyHolder.getKeys().keySet().toArray()[0]).toString());
+    }
+
+    public void updateNotes(int petId, String notes) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("notes", notes);
+        params.put("petId", petId);
+        jdbcTemplate.update(updateNotesSql, params);
     }
 
     private class PetRowMapper implements RowMapper<Pet> {
