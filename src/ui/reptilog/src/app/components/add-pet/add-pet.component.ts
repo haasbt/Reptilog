@@ -18,6 +18,8 @@ export class AddPetComponent implements OnInit {
   petForm: FormGroup;
   photo: any;
   imageUpload: any;
+  defaultPhoto: string;
+  originalPhoto: string;
 
   @Input('petId') petId: number;
   @Input('petName') petName: string;
@@ -30,7 +32,7 @@ export class AddPetComponent implements OnInit {
   @Input('image') image: string;
 
   constructor(private fb: FormBuilder, private petService: PetService, private awsService: AwsService) {
-
+    this.defaultPhoto = './assets/images/default-pic.png';
   }
 
   ngOnInit() {
@@ -46,18 +48,32 @@ export class AddPetComponent implements OnInit {
       notes: [this.notes || ''],
       image: [this.image || '']
     });
-    this.photo = './assets/images/default-pic.png';
+    if (!this.image) {
+      this.photo = this.defaultPhoto;
+    } else {
+      this.originalPhoto = this.image;
+      this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.image;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.petForm.controls.notes.setValue(changes.notes.currentValue);
+    if (changes.notes && !changes.notes.isFirstChange()) {
+      this.petForm.controls.notes.setValue(changes.notes.currentValue);
+    }
+
+    if (changes.image && !changes.image.isFirstChange()) {
+      this.petForm.controls.image.setValue(changes.image.currentValue);
+    }
   }
 
   submit() {
     if (this.petId) {
       this.petService.updatePet(this.petForm.value).subscribe(resp => {
         if (resp && resp.success === true) {
-          //upload new image to aws
+          if (this.originalPhoto) {
+            this.awsService.deleteFromAWS(this.petId, this.originalPhoto);
+          }
+          this.awsService.uploadToAWS(this.petId, this.imageUpload);
           this.created.emit(true);
           this.closeModal.nativeElement.click();
         }
@@ -66,7 +82,7 @@ export class AddPetComponent implements OnInit {
       this.petService.addPet(this.petForm.value).subscribe(resp => {
         if (resp && resp.success === true) {
           this.petId = resp.petId;
-          this.awsService.uploadToAWS(this.petId, this.imageUpload)
+          this.awsService.uploadToAWS(this.petId, this.imageUpload);
           this.created.emit(true);
           this.closeModal.nativeElement.click();
         }

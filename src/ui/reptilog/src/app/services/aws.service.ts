@@ -25,7 +25,28 @@ export class AwsService {
       if (err) {
         alert(err)
       }
-    })
+    });
+  }
+
+  deleteFromAWS(petId: number, fileName: string) {
+    const bucket = new S3(
+      {
+        accessKeyId: 'AKIAIW7NCOCKLWMUECUA',
+        secretAccessKey: '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',
+        region: 'us-east-2'
+      }
+    );
+
+    const params = {
+      Bucket: 'reptilog-images',
+      Key: 'images/' + petId + '/' + fileName
+    };
+
+    bucket.deleteObject(params, function (err) {
+      if (err) {
+        alert(err)
+      }
+    });
   }
 
 }
