@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PetService} from "../../services/pet.service";
 import {AwsService} from "../../services/aws.service";
@@ -35,6 +35,7 @@ export class AddPetComponent implements OnInit {
 
   ngOnInit() {
     this.petForm = this.fb.group({
+      petId:[this.petId || ''],
       userId: ['1'],
       name: [this.petName || '', Validators.required],
       type: [this.petType || '', Validators.required],
@@ -48,15 +49,29 @@ export class AddPetComponent implements OnInit {
     this.photo = './assets/images/default-pic.png';
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.petForm.controls.notes.setValue(changes.notes.currentValue);
+  }
+
   submit() {
-    this.petService.addPet(this.petForm.value).subscribe(resp => {
-      if (resp && resp.success === true) {
-        this.petId = resp.petId;
-        this.awsService.uploadToAWS(this.petId, this.imageUpload)
-        this.created.emit(true);
-        this.closeModal.nativeElement.click();
-      }
-    });
+    if (this.petId) {
+      this.petService.updatePet(this.petForm.value).subscribe(resp => {
+        if (resp && resp.success === true) {
+          //upload new image to aws
+          this.created.emit(true);
+          this.closeModal.nativeElement.click();
+        }
+      });
+    } else {
+      this.petService.addPet(this.petForm.value).subscribe(resp => {
+        if (resp && resp.success === true) {
+          this.petId = resp.petId;
+          this.awsService.uploadToAWS(this.petId, this.imageUpload)
+          this.created.emit(true);
+          this.closeModal.nativeElement.click();
+        }
+      });
+    }
   }
 
   onFileChange(image: any){

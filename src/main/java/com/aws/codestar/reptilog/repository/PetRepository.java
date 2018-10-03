@@ -43,7 +43,7 @@ public class PetRepository {
                 "where pet_id = :petId";
 
         updateSql = "update pets\n" +
-                "set pet_type = :petType, pet_name = :petName, hatch_date = :hatchDate, pet_image = :image, color = :color, morph = :morph, notes = :notes, size = :size\n" +
+                "set pet_type = :petType, pet_name = :petName, hatch_date = to_date(:hatchDate, 'YYYY-MM-DD'), pet_image = :petImage, color = :color, morph = :morph, notes = :notes, size = :size\n" +
                 "where pet_id = :petId";
 
         updateNotesSql = "update pets\n" +

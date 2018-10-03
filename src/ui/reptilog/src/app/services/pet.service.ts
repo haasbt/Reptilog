@@ -29,4 +29,14 @@ export class PetService {
     const endpoint = 'api/create-pet';
     return this.http.post(endpoint, petInfo, this.httpOptions);
   }
+
+  updatePet(petInfo: any): Observable<any> {
+    const endpoint = 'api/update-pet';
+    return this.http.post(endpoint, petInfo, this.httpOptions);
+  }
+
+  updateNotes(petInfo: any): Observable<any> {
+    const endpoint = 'api/update-notes';
+    return this.http.post(endpoint, petInfo, this.httpOptions);
+  }
 }
