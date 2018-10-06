@@ -3,7 +3,6 @@ package com.aws.codestar.reptilog.service;
 import com.aws.codestar.reptilog.domain.Pet;
 import com.aws.codestar.reptilog.repository.PetRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -18,7 +17,6 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
-    @Transactional
     public Pet createPet(Map json) {
         Pet pet = processPet(json);
         int petId = petRepository.insert(pet);
@@ -26,14 +24,12 @@ public class PetService {
         return pet;
     }
 
-    @Transactional
     public void updateNotes(Map json) {
         int petId = getIntegerVal(json, "petId");
         String notes = getStrVal(json, "notes");
         petRepository.updateNotes(petId, notes);
     }
 
-    @Transactional
     public void updatePet(Map json) {
         Pet pet = processPet(json);
         petRepository.update(pet);
