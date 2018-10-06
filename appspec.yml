@@ -6,11 +6,8 @@ files:
 hooks:
   AfterInstall:
     - location: scripts/install_dependencies
-      timeout: 1600
       runas: root
     - location: scripts/codestar_remote_access
-      timeout: 1600
       runas: root
     - location: scripts/start_server
-      timeout: 1600
       runas: root
