@@ -19,7 +19,8 @@ export class AddPetComponent implements OnInit {
   photo: any;
   imageUpload: any;
   defaultPhoto: string;
-  originalPhoto: string;
+  hasImage: boolean;
+  deleteImage: boolean;
 
   @Input('petId') petId: number;
   @Input('petName') petName: string;
@@ -48,11 +49,12 @@ export class AddPetComponent implements OnInit {
       notes: [this.notes || ''],
       image: [this.image || '']
     });
-    if (!this.image) {
-      this.photo = this.defaultPhoto;
-    } else {
-      this.originalPhoto = this.image;
+    if (this.image) {
+      this.hasImage = true;
       this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.image;
+    } else {
+      this.hasImage = false;
+      this.photo = this.defaultPhoto;
     }
   }
 
@@ -70,23 +72,51 @@ export class AddPetComponent implements OnInit {
     if (this.petId) {
       this.petService.updatePet(this.petForm.value).subscribe(resp => {
         if (resp && resp.success === true) {
-          if (this.originalPhoto) {
-            this.awsService.deleteFromAWS(this.petId, this.originalPhoto);
+          if (this.imageUpload || this.deleteImage) {
+            this.awsService.deleteFromAWS(this.petId, this.image);
           }
-          this.awsService.uploadToAWS(this.petId, this.imageUpload);
+          if (this.imageUpload) {
+            this.awsService.uploadToAWS(this.petId, this.imageUpload);
+          }
           this.created.emit(true);
           this.closeModal.nativeElement.click();
-        }
+          }
+
       });
     } else {
       this.petService.addPet(this.petForm.value).subscribe(resp => {
         if (resp && resp.success === true) {
           this.petId = resp.petId;
+          if (this.imageUpload) {
           this.awsService.uploadToAWS(this.petId, this.imageUpload);
+          }
           this.created.emit(true);
           this.closeModal.nativeElement.click();
         }
       });
+    }
+  }
+
+  clearImageUpload() {
+    if (this.hasImage) {
+    this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.image;
+    } else {
+    this.photo = this.defaultPhoto;
+    }
+    this.imageUpload = null;
+  }
+
+  markImageForDeletion() {
+    this.photo = this.defaultPhoto;
+    this.deleteImage = true;
+  }
+
+  undoDelete() {
+    this.deleteImage = false;
+    if (this.hasImage) {
+      this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.image;
+    } else {
+      this.photo = this.defaultPhoto;
     }
   }
 
@@ -98,5 +128,6 @@ export class AddPetComponent implements OnInit {
         this.petForm.controls.image.setValue(image.name);
       };
       reader.readAsDataURL(image);
+      this.deleteImage = false;
     }
 }

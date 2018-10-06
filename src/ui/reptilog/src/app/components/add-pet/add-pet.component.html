@@ -8,7 +8,16 @@
         <img class="image-dimensions" [src]="photo">
       </label>
       <input class="custom-hide" type="file" accept="image/jpg, image/jpeg, image/png" capture="capture" id="image" (change)="onFileChange($event.target.files[0])">
-      <label for="image" class="btn btn-warning btn-block">Upload Image</label>
+      <label *ngIf="!hasImage && !imageUpload" for="image" class="btn btn-warning btn-block">Upload Image</label>
+      <a *ngIf="imageUpload" class="col mr-2 ml-3 btn btn-danger" (click)="clearImageUpload()">Undo</a>
+      <div *ngIf="hasImage && !imageUpload && !deleteImage" class="row">
+        <a class="col mr-2 ml-3 btn btn-danger" (click)="markImageForDeletion()">Delete Image</a>
+        <label for="image" class="col mr-3 btn btn-warning">Upload Image</label>
+      </div>
+      <div *ngIf="hasImage && !imageUpload && deleteImage" class="row">
+        <a class="col mr-2 ml-3 btn btn-danger" (click)="undoDelete()">Undo Delete</a>
+        <label for="image" class="col mr-3 btn btn-warning">Upload Image</label>
+      </div>
     </fieldset>
     <fieldset class="form-group">
       <label for="type">Species *</label>
