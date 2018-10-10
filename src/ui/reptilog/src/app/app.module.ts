@@ -15,6 +15,7 @@ import {AwsService} from "./services/aws.service";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import { ChartsComponent } from './components/charts/charts.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     HeaderComponent,
     PetListComponent,
     AddPetComponent,
-    ChartsComponent
+    ChartsComponent,
+    FooterComponent
   ],
   imports: [
     AppRoutingModule,

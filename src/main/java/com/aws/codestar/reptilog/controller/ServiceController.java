@@ -28,7 +28,7 @@ public class ServiceController {
         this.eventService = eventService;
     }
 
-    @RequestMapping(value = {"/", "/pet/*", "/charts"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/pets", "/pets/*", "/charts"}, method = RequestMethod.GET)
     public String home() {
         return "forward:index.html";
     }

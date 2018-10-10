@@ -37,7 +37,7 @@ export class PetListComponent implements OnInit {
   }
 
   goToPet(petId: number) {
-    this.router.navigate(['pet', petId]);
+    this.router.navigate(['pet', petId], {skipLocationChange: true});
   }
 
 }
