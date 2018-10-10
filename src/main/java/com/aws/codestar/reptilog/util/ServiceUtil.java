@@ -23,7 +23,20 @@ public class ServiceUtil {
         try {
             String val = json.get(key).toString();
             if (StringUtils.isNotBlank(val)) {
-                return Integer.valueOf(Integer.parseInt(val));
+                return Integer.valueOf(val);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Double getDoubleVal(Map json, String key) {
+        try {
+            String val = json.get(key).toString();
+            if (StringUtils.isNotBlank(val)) {
+                return Double.valueOf(val);
             } else {
                 return null;
             }
