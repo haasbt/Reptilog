@@ -12,6 +12,9 @@ import {HttpClientModule} from "@angular/common/http";
 import { AddPetComponent } from './components/add-pet/add-pet.component';
 import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {AwsService} from "./services/aws.service";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
+import { ChartsComponent } from './components/charts/charts.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -20,13 +23,16 @@ import {AwsService} from "./services/aws.service";
     PetComponent,
     HeaderComponent,
     PetListComponent,
-    AddPetComponent
+    AddPetComponent,
+    ChartsComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxChartsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     PetService,
