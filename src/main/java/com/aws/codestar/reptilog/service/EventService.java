@@ -35,7 +35,7 @@ public class EventService {
         if (getDoubleVal(json, "eventData") != null) {
             event.setData(getDoubleVal(json, "eventData"));
         }
-        event.setDataUnit(getStrVal(json, "eventDataUnit"));
+        event.setDate(getStrVal(json, "eventDate"));
         event.setNotes(getStrVal(json, "eventNotes"));
         return event;
     }

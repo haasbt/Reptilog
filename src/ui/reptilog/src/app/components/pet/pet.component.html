@@ -19,11 +19,11 @@
     </div>
 
     <div class="row">
-      <a class="col mr-2 ml-3 btn btn-secondary">F</a>
-      <a class="col mr-2 btn btn-secondary">S</a>
-      <a class="col mr-2 btn btn-secondary">W</a>
-      <a class="col mr-2 btn btn-secondary">L</a>
-      <a class="col mr-3 btn btn-secondary">P</a>
+      <a class="col mr-2 ml-3 btn btn-secondary" (click)="setEventType('Feeding')" data-toggle="modal" data-target="#eventModal">F</a>
+      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Shedding')" data-toggle="modal" data-target="#eventModal">S</a>
+      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Weight')" data-toggle="modal" data-target="#eventModal">W</a>
+      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Length')" data-toggle="modal" data-target="#eventModal">L</a>
+      <a class="col mr-3 btn btn-secondary" (click)="setEventType('Poop')" data-toggle="modal" data-target="#eventModal">P</a>
     </div>
     <hr>
     <form [formGroup]="notesForm" novalidate>
@@ -51,6 +51,19 @@
           <app-add-pet [petId]="pet.id" [petName]="pet.name" [petType]="pet.type" [hatchDate]="pet.hatchDate"
                        [petColor]="pet.color" [morph]="pet.morph" [petSize]="pet.size" [notes]="pet.notes"
                        [image]="pet.image" (created)="petEdited($event)"></app-add-pet>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="eventModal" class="modal fade" role="dialog">
+    <div class="modal-dialog bg-white">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h2>Record {{eventType}}</h2>
+        </div>
+        <div class="modal-body">
+          <app-add-event [petId]="pet.id" [eventType]="eventType" [units]="eventUnits" (created)="eventAdded($event)"></app-add-event>
         </div>
       </div>
     </div>

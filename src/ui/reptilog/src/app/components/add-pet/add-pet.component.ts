@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PetService} from "../../services/pet.service";
-import {AwsService} from "../../services/aws.service";
+import {PetService} from "../../services/pet/pet.service";
+import {AwsService} from "../../services/aws/aws.service";
 
 @Component({
   selector: 'app-add-pet',

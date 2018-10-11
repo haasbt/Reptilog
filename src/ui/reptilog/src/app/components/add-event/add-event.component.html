@@ -1,0 +1,25 @@
+<div>
+  <form class="text-left" [formGroup]="eventForm" novalidate>
+    <fieldset class="form-group">
+      <label for="eventDate">Date</label>
+      <input class="form-control" type="date" id="eventDate" formControlName="eventDate">
+    </fieldset>
+    <fieldset *ngIf="units" class="form-group">
+      <label for="eventData">{{eventType}} ({{units}})</label>
+      <input class="form-control" type="number" id="eventData" formControlName="eventData">
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="eventNotes">Notes</label>
+      <textarea class="form-control" id="eventNotes" formControlName="eventNotes"></textarea>
+    </fieldset>
+  </form>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+    <a #closeModal class="btn btn-danger btn-block" data-dismiss="modal">Cancel</a>
+  </div>
+  <div class="col">
+    <button class="btn btn-success btn-block" (click)="submit()" [disabled]="!eventForm.valid">Submit</button>
+  </div>
+</div>

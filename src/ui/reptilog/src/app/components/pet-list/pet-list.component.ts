@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PetService} from "../../services/pet.service";
+import {PetService} from "../../services/pet/pet.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -37,7 +37,7 @@ export class PetListComponent implements OnInit {
   }
 
   goToPet(petId: number) {
-    this.router.navigate(['pet', petId], {skipLocationChange: true});
+    this.router.navigate(['pets', petId], {skipLocationChange: true});
   }
 
 }

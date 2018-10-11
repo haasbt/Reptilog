@@ -7,7 +7,8 @@
       <label for="image">
         <img class="image-dimensions" [src]="photo">
       </label>
-      <input class="custom-hide" type="file" accept="image/jpg, image/jpeg, image/png" capture="capture" id="image" (change)="onFileChange($event.target.files[0])">
+      <input class="custom-hide" type="file" accept="image/jpg, image/jpeg, image/png" capture="capture" id="image"
+             (change)="onFileChange($event.target.files[0])">
       <label *ngIf="!hasImage && !imageUpload" for="image" class="btn btn-warning btn-block">Upload Image</label>
       <a *ngIf="imageUpload" class="col mr-2 ml-3 btn btn-danger" (click)="clearImageUpload()">Undo</a>
       <div *ngIf="hasImage && !imageUpload && !deleteImage" class="row">
@@ -47,10 +48,10 @@
 <br>
 <div class="row">
   <div class="col">
-<a #closeModal class="btn btn-danger btn-block" data-dismiss="modal">Cancel</a>
+    <a #closeModal class="btn btn-danger btn-block" data-dismiss="modal">Cancel</a>
   </div>
   <div class="col">
-<button class="btn btn-success btn-block" (click)="submit()" [disabled]="!petForm.valid">Submit</button>
+    <button class="btn btn-success btn-block" (click)="submit()" [disabled]="!petForm.valid">Submit</button>
 
   </div>
 </div>

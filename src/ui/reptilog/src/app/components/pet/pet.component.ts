@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {PetService} from "../../services/pet.service";
+import {PetService} from "../../services/pet/pet.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -16,6 +16,8 @@ export class PetComponent implements OnInit {
   photo: any;
   editingNotes: boolean;
   originalNotes: string;
+  eventType: string;
+  eventUnits: string;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private petService: PetService) {
     this.photo = './assets/images/default-pic.png';
@@ -44,6 +46,7 @@ export class PetComponent implements OnInit {
         }
         this.originalNotes = this.pet.notes;
         this.notesForm.controls.notes.setValue(this.pet.notes);
+        console.log(this.pet.hatchDate);
       }
     });
   }
@@ -51,6 +54,14 @@ export class PetComponent implements OnInit {
   petEdited(event) {
     if (event === true) {
       this.getPet();
+    }
+  }
+
+  eventAdded(event) {
+    if (event === true) {
+      if (this.eventType === 'Length' || this.eventType === 'Weight') {
+        this.getPet();
+      }
     }
   }
 
@@ -70,6 +81,17 @@ export class PetComponent implements OnInit {
     this.editingNotes = !this.editingNotes;
     if (this.editingNotes === false) {
       this.notesForm.controls.notes.setValue(this.originalNotes);
+    }
+  }
+
+  setEventType(eventType: string) {
+    this.eventType = eventType;
+    if (this.eventType === 'Weight') {
+      this.eventUnits = 'grams';
+    } else if (this.eventType === 'Length') {
+      this.eventUnits = 'inches';
+    } else {
+      this.eventUnits = null;
     }
   }
 

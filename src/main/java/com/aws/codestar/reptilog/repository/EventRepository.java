@@ -21,9 +21,9 @@ public class EventRepository {
     static {
 
         insertSql = "insert into events\n" +
-                "(pet_id, user_id, event_type, event_data, event_data_unit, event_date, event_notes)\n" +
+                "(pet_id, user_id, event_type, event_data, event_date, event_notes)\n" +
                 "values\n" +
-                "(:petId, :userId, :eventType, :eventData, :eventDataUnit, to_date(:eventDate, 'YYYY-MM-DD'), :eventNotes)";
+                "(:petId, :userId, :eventType, :eventData, to_date(:eventDate, 'YYYY-MM-DD'), :eventNotes)";
 
         updateSql = "";
 
@@ -38,7 +38,6 @@ public class EventRepository {
                 .addValue("userId", event.getUserId())
                 .addValue("eventType", event.getType())
                 .addValue("eventData", event.getData())
-                .addValue("eventDataUnit", event.getDataUnit())
                 .addValue("eventDate", event.getDate())
                 .addValue("eventNotes", event.getNotes());
 

@@ -6,7 +6,6 @@ public class Event {
     private int userId;
     private String type;
     private double data;
-    private String dataUnit;
     private String date;
     private String notes;
 
@@ -48,14 +47,6 @@ public class Event {
 
     public void setData(double data) {
         this.data = data;
-    }
-
-    public String getDataUnit() {
-        return dataUnit;
-    }
-
-    public void setDataUnit(String dataUnit) {
-        this.dataUnit = dataUnit;
     }
 
     public String getDate() {
