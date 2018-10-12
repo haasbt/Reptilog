@@ -13,6 +13,8 @@ public class Pet {
     private String status;
     private String notes;
     private String size;
+    private String lastWeight;
+    private String lastLength;
 
     public int getId() {
         return id;
@@ -93,4 +95,12 @@ public class Pet {
     public String getSize() { return size; }
 
     public void setSize(String size) { this.size = size; }
+
+    public String getLastWeight() {return lastWeight; }
+
+    public void setLastWeight(String lastWeight) { this.lastWeight = lastWeight; }
+
+    public String getLastLength() { return lastLength; }
+
+    public void setLastLength(String lastLength) { this.lastLength = lastLength; }
 }

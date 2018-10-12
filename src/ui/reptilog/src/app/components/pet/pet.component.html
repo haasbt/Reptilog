@@ -12,9 +12,8 @@
         src="{{photo}}"
         [style.border-color]="pet.color || 'black'" style="max-height: 300px; max-width: 300px; margin: 0 auto">
       <h6 class="text-left">Hatch Date: {{pet.hatchDate || 'Unknown'}}</h6>
-      <h6 class="text-left">Last Weight: Unknown</h6>
-
-      <h6 class="text-left">Last Length: Unknown</h6>
+      <h6 class="text-left">Last Weight: {{pet.lastWeight || 'Unknown'}}</h6>
+      <h6 class="text-left">Last Length: {{pet.lastLength || 'Unknown'}}</h6>
 
     </div>
 

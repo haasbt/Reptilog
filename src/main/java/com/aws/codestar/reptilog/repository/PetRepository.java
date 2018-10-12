@@ -34,12 +34,18 @@ public class PetRepository {
                 "values\n" +
                 "(:userId, :petType, :petName, to_date(:hatchDate, 'YYYY-MM-DD'), :petImage, :color, :morph, :notes, :size)";
 
-        getByUserSql = "select pet_id, pet_type, pet_name, hatch_date, color, morph, status, notes, pet_image, size\n" +
+        getByUserSql = "select pet_id, pet_type, pet_name, hatch_date, color, morph, status, notes, pet_image, size, null as last_length, null as last_weight\n" +
                 "from pets\n" +
                 "where user_id = :userId";
 
-        getByPetSql = "select pet_id, pet_type, pet_name, hatch_date, color, morph, status, notes, pet_image, size\n" +
-                "from pets\n" +
+        getByPetSql = "select p.pet_id, p.pet_type, p.pet_name, p.hatch_date, p.color, p.morph, p.status, p.notes, p.pet_image, p.size, (\n" +
+                        "select e.event_data from events e where e.pet_id = p.pet_id and e.event_type = 'Length' and e.event_date = (\n" +
+                            "select max(e2.event_date) from events e2 where e2.pet_id = p.pet_id and e2.event_type = 'Length'\n" +
+                        ") limit 1) as last_length, (\n" +
+                        "select e.event_data from events e where e.pet_id = p.pet_id and e.event_type = 'Weight' and e.event_date = (\n" +
+                            "select max(e2.event_date) from events e2 where e2.pet_id = p.pet_id and e2.event_type = 'Weight'\n" +
+                        ") limit 1) as last_weight\n" +
+                "from pets p\n" +
                 "where pet_id = :petId";
 
         updateSql = "update pets\n" +
@@ -118,6 +124,8 @@ public class PetRepository {
             pet.setNotes(rs.getString("notes"));
             pet.setImage(rs.getString("pet_image"));
             pet.setSize(rs.getString("size"));
+            pet.setLastLength(rs.getString("last_length"));
+            pet.setLastWeight(rs.getString("last_weight"));
             return pet;
         }
     }
