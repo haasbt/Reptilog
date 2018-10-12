@@ -2,6 +2,7 @@ package com.aws.codestar.reptilog.controller;
 
 import com.aws.codestar.reptilog.domain.Event;
 import com.aws.codestar.reptilog.domain.Pet;
+import com.aws.codestar.reptilog.repository.EventRepository;
 import com.aws.codestar.reptilog.repository.PetRepository;
 import com.aws.codestar.reptilog.service.EventService;
 import com.aws.codestar.reptilog.service.PetService;
@@ -21,11 +22,13 @@ public class ServiceController {
     private PetRepository petRepo;
     private PetService petService;
     private EventService eventService;
+    private EventRepository eventRepo;
 
-    public ServiceController(PetRepository petRepo, PetService petService, EventService eventService) {
+    public ServiceController(PetRepository petRepo, PetService petService, EventService eventService, EventRepository eventRepo) {
         this.petRepo = petRepo;
         this.petService = petService;
         this.eventService = eventService;
+        this.eventRepo = eventRepo;
     }
 
     @RequestMapping(value = {"/pets", "/pets/*", "/charts"}, method = RequestMethod.GET)
@@ -75,5 +78,11 @@ public class ServiceController {
         response.put("success", true);
         response.put("eventId", event.getId());
         return response;
+    }
+
+    @RequestMapping(value = "/api/get-events/{petId}/{eventType}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    List<Event> getEvents(HttpServletRequest request, @PathVariable("petId") int petId, @PathVariable("eventType") String eventType) {
+        return eventRepo.getEventsByPet(eventType, petId);
     }
 }

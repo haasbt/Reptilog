@@ -1,7 +1,7 @@
 <div class="col col-xs-10 text-center div-bottom-padding bordered bg-white">
-  <div style="display: grid; min-height: 300px">
-  <ngx-charts-line-chart [results]="data" [xAxis]="true" [yAxis]="true" [autoScale]="true" [xAxisTicks]="ticks">
-  </ngx-charts-line-chart>
+  <div *ngIf="data" style="display: grid; min-height: 300px">
+    <ngx-charts-line-chart [results]="data" [xAxis]="true" [yAxis]="true" [autoScale]="true">
+    </ngx-charts-line-chart>
   </div>
 
 </div>

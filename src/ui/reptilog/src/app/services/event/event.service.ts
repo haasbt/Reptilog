@@ -20,4 +20,9 @@ export class EventService {
     return this.http.post(endpoint, eventInfo, this.httpOptions);
   }
 
+  getEvents(petId: number, eventType: string): Observable<any> {
+    const endpoint = 'api/get-events/' + petId + '/' + eventType;
+    return this.http.get(endpoint, this.httpOptions);
+  }
+
 }

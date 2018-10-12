@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {EventService} from "../../services/event/event.service";
 
 @Component({
   selector: 'app-charts',
@@ -7,98 +8,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChartsComponent implements OnInit {
 
-  ticks: any[] = [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80];
-  data: any[] = [
-    {
-      name: 'Cyan',
-      series: [
-        {
-          name: 5,
-          value: 77
-        },
-        {
-          name: 10,
-          value: 80      },
-        {
-          name: 15,
-          value: 85
-        }
-      ]
-    },
-    {
-      name: 'Yellow',
-      series: [
-        {
-          name: 5,
-          value: 105
-        },
-        {
-          name: 10,
-          value: 110
-        },
-        {
-          name: 15,
-          value: 120
-        },
-        {
-          name: 20,
-          value: 110
-        },
-        {
-          name: 25,
-          value: 110
-        },
-        {
-          name: 30,
-          value: 110
-        },
-        {
-          name: 35,
-          value: 110
-        },
-        {
-          name: 40,
-          value: 110
-        },
-        {
-          name: 45,
-          value: 110
-        },
-        {
-          name: 50,
-          value: 110
-        },
-        {
-          name: 55,
-          value: 110
-        },
-        {
-          name: 60,
-          value: 110
-        },
-        {
-          name: 65,
-          value: 110
-        },
-        {
-          name: 70,
-          value: 110
-        },
-        {
-          name: 75,
-          value: 110
-        },
-        {
-          name: 80,
-          value: 110
-        }
-      ]
-    }
-  ];
+  eventType: string = 'Weight';
+  //ticks: any[] = [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80];
+  data: any[] = [];
 
-  constructor() { }
+  constructor(private eventService: EventService) { }
 
   ngOnInit() {
+    this.getData(13, 'Update Test');
+  }
+
+  getData(petId: number, petName: string) {
+    this.eventService.getEvents(petId, this.eventType).subscribe(resp => {
+      if (resp) {
+        console.log(resp);
+        let series: any[] = [];
+        resp.forEach(element => {
+          console.log(element);
+          series.push({name: new Date(element.date), value: element.data});
+        });
+        this.data.push({name: petName, series: series});
+        console.log(this.data);
+      }
+    });
+  }
+
+  findArrayIndex(data: any[], name: string) {
+    for (var i = 0; i < data.length; i+= 1) {
+      if (data[i]['name'] === name) {
+        return i;
+      }
+    }
+    return -1;
   }
 
 }
