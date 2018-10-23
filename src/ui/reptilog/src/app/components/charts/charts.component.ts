@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {EventService} from "../../services/event/event.service";
+import {PetService} from "../../services/pet/pet.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-charts',
@@ -9,13 +11,22 @@ import {EventService} from "../../services/event/event.service";
 export class ChartsComponent implements OnInit {
 
   eventType: string = 'Weight';
-  //ticks: any[] = [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80];
   data: any[] = [];
+  customColors: any[] = [];
+  included: number[] = [];
+  pets: any[];
 
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService, private petService: PetService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getData(13, 'Update Test');
+    this.route.params.subscribe(params => {
+      if (params['initialPet']) {
+        this.included.push(params['initialPet']);
+        this.getPets();
+      } else {
+        this.getPets();
+      }
+    });
   }
 
   getData(petId: number, petName: string) {
@@ -27,8 +38,31 @@ export class ChartsComponent implements OnInit {
           console.log(element);
           series.push({name: new Date(element.date), value: element.data});
         });
-        this.data.push({name: petName, series: series});
-        console.log(this.data);
+        if (series.length > 0) {
+          this.data.push({name: petName, series: series});
+          this.data = [...this.data];
+          console.log(this.data);
+        }
+      }
+    });
+  }
+
+  getPets() {
+    this.petService.getPets(1).subscribe(resp => {
+      if (resp) {
+        this.pets = resp;
+        if (this.included.length > 0) {
+          for (var i = 0; i < this.pets.length; i += 1) {
+            if (this.included.includes(this.pets[i].id)) {
+              this.getData(this.pets[i].id, this.pets[i].name);
+            }
+          }
+        } else {
+          for (var i = 0; i < this.pets.length; i += 1) {
+            this.included.push(this.pets[i].id);
+            this.getData(this.pets[i].id, this.pets[i].name);
+          }
+        }
       }
     });
   }
@@ -40,6 +74,25 @@ export class ChartsComponent implements OnInit {
       }
     }
     return -1;
+  }
+
+  toggleCheck(id: number, name: string, checked: boolean) {
+    console.log(name + ' ' + checked);
+    console.log(this.included);
+    if (checked) {
+      if (!this.included.includes(id)) {
+        this.included.push(id);
+        this.getData(id, name);
+      }
+    } else {
+      if (this.included.includes(id)) {
+        this.included.splice(this.included.indexOf(id), 1);
+        if (this.findArrayIndex(this.data, name) != -1) {
+          this.data.splice(this.findArrayIndex(this.data, name), 1);
+          this.data = [...this.data];
+        }
+      }
+    }
   }
 
 }

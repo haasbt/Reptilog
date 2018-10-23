@@ -1,7 +1,12 @@
 <div class="col col-xs-10 text-center div-bottom-padding bordered bg-white">
-  <div *ngIf="data" style="display: grid; min-height: 300px">
+  <div *ngIf="data && data.length > 0" style="display: grid; min-height: 300px">
     <ngx-charts-line-chart [results]="data" [xAxis]="true" [yAxis]="true" [autoScale]="true">
     </ngx-charts-line-chart>
   </div>
-
+  <div *ngIf="pets" class="row ml-3" style="display: grid">
+    <div *ngFor="let p of pets" class="mr-2 text-left" style="white-space: nowrap">
+      <input type="checkbox" (change)="toggleCheck(p.id, p.name, $event.target.checked)" [checked]="included.includes(p.id)">
+      <label>{{p.name}}</label>
+    </div>
+  </div>
 </div>
