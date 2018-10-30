@@ -1,0 +1,29 @@
+.cell-fix {
+  min-height: unset !important;
+}
+
+.cal-day-number-fix {
+  font-size: 1.2em !important;
+  font-weight: 400;
+  opacity: 0.5;
+  margin-top: 15px;
+  margin-right: 15px;
+  float: right;
+  margin-bottom: 10px;
+}
+
+.cal-events-fix {
+  flex: 1;
+  align-items: flex-end;
+  margin: 0 auto;
+  line-height: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cal-event-fix {
+  display: inline-block;
+  margin: 2px;
+  color: black;
+  font-size: .75em;
+}

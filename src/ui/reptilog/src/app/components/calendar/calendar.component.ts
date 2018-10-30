@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {PetService} from "../../services/pet/pet.service";
 import {EventService} from "../../services/event/event.service";
 import {ActivatedRoute} from "@angular/router";
+import {CalendarMonthViewDay} from "angular-calendar";
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent implements OnInit {
 
@@ -19,7 +21,86 @@ export class CalendarComponent implements OnInit {
     {
       title: 'Test 1',
       color: {primary: "#86b200"},
-      start: new Date()
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
+    },
+    {
+      title: 'Test 1',
+      color: {primary: "#86b200"},
+      start: new Date(),
+      cssClass: 'fas fa-weight'
     }
   ];
 
@@ -46,6 +127,12 @@ export class CalendarComponent implements OnInit {
 
   petChanged(petId: number) {
 
+  }
+
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+    body.forEach(day => {
+      day.cssClass = 'cell-fix';
+    });
   }
 
 }
