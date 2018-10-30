@@ -19,6 +19,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AddEventComponent } from './components/add-event/add-event.component';
 import {DatePipe} from "@angular/common";
 import {EventService} from "./services/event/event.service";
+import {CalendarModule} from "angular-calendar";
+import { CalendarComponent} from './components/calendar/calendar.component';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import {EventService} from "./services/event/event.service";
     AddPetComponent,
     ChartsComponent,
     FooterComponent,
-    AddEventComponent
+    AddEventComponent,
+    CalendarComponent
   ],
   imports: [
     AppRoutingModule,
@@ -38,7 +41,8 @@ import {EventService} from "./services/event/event.service";
     HttpClientModule,
     ReactiveFormsModule,
     NgxChartsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CalendarModule.forRoot()
   ],
   providers: [
     PetService,

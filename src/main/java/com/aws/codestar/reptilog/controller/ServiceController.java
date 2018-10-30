@@ -31,7 +31,7 @@ public class ServiceController {
         this.eventRepo = eventRepo;
     }
 
-    @RequestMapping(value = {"/pets", "/pets/*", "/charts"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/pets", "/pets/*", "/charts", "/calendar"}, method = RequestMethod.GET)
     public String home() {
         return "forward:index.html";
     }
