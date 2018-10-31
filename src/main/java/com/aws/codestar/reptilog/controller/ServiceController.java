@@ -31,7 +31,7 @@ public class ServiceController {
         this.eventRepo = eventRepo;
     }
 
-    @RequestMapping(value = {"/pets", "/pets/*", "/charts", "/calendar"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/pets", "/pets/*", "/charts", "/charts/*", "/calendar", "/calendar/*"}, method = RequestMethod.GET)
     public String home() {
         return "forward:index.html";
     }
@@ -86,9 +86,13 @@ public class ServiceController {
         return eventRepo.getEventsByPet(eventType, petId);
     }
 
-    @RequestMapping(value = "/api/get-events-by-month/{userId}/{month}/{year}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/api/get-events-by-month/{userId}/{petId}/{month}/{year}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
-    List<Event> getEventsByMonth(HttpServletRequest request, @PathVariable("userId") int userId, @PathVariable("month") int month, @PathVariable("year") int year) {
-        return eventRepo.getEventsByMonth(userId, month, year);
+    List<Event> getEventsByMonth(HttpServletRequest request, @PathVariable("userId") int userId, @PathVariable("petId") int petId, @PathVariable("month") int month, @PathVariable("year") int year) {
+        if (petId == 0) {
+            return eventRepo.getEventsByMonth(userId, month, year);
+        } else {
+            return eventRepo.getEventsByPetMonth(petId, month, year);
+        }
     }
 }

@@ -34,11 +34,11 @@ public class PetRepository {
                 "values\n" +
                 "(:userId, :petType, :petName, to_date(:hatchDate, 'YYYY-MM-DD'), :petImage, :color, :morph, :notes, :size)";
 
-        getByUserSql = "select pet_id, pet_type, pet_name, hatch_date, color, morph, status, notes, pet_image, size, null as last_length, null as last_weight\n" +
+        getByUserSql = "select pet_id, user_id, pet_type, pet_name, hatch_date, color, morph, status, notes, pet_image, size, null as last_length, null as last_weight\n" +
                 "from pets\n" +
                 "where user_id = :userId";
 
-        getByPetSql = "select p.pet_id, p.pet_type, p.pet_name, p.hatch_date, p.color, p.morph, p.status, p.notes, p.pet_image, p.size, (\n" +
+        getByPetSql = "select p.pet_id, user_id, p.pet_type, p.pet_name, p.hatch_date, p.color, p.morph, p.status, p.notes, p.pet_image, p.size, (\n" +
                         "select e.event_data from events e where e.pet_id = p.pet_id and e.event_type = 'Length' and e.event_date = (\n" +
                             "select max(e2.event_date) from events e2 where e2.pet_id = p.pet_id and e2.event_type = 'Length'\n" +
                         ") limit 1) as last_length, (\n" +
@@ -115,6 +115,7 @@ public class PetRepository {
         public Pet mapRow(ResultSet rs, int rowNum) throws SQLException {
             Pet pet = new Pet();
             pet.setId(rs.getInt("pet_id"));
+            pet.setUserId(rs.getInt("user_id"));
             pet.setType(rs.getString("pet_type"));
             pet.setName(rs.getString("pet_name"));
             pet.setHatchDate(rs.getString("hatch_date"));

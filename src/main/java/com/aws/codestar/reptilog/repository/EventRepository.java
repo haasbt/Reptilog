@@ -24,6 +24,7 @@ public class EventRepository {
     static final String insertSql;
     static final String getForGraphSql;
     static final String getForMonthSql;
+    static final String getForPetMonthSql;
     static final String updateSql;
     static final String deleteSql;
 
@@ -43,6 +44,13 @@ public class EventRepository {
         getForMonthSql = "select event_id, pet_id, user_id, event_type, event_data, event_date, event_notes\n" +
                 "from events\n" +
                 "where user_id = :userId\n" +
+                "and extract(month from event_date) = :month\n" +
+                "and extract(year from event_date) = :year\n" +
+                "order by event_date, pet_id, event_type";
+
+        getForPetMonthSql = "select event_id, pet_id, user_id, event_type, event_data, event_date, event_notes\n" +
+                "from events\n" +
+                "where pet_id = :petId\n" +
                 "and extract(month from event_date) = :month\n" +
                 "and extract(year from event_date) = :year\n" +
                 "order by event_date, pet_id, event_type";
@@ -80,6 +88,14 @@ public class EventRepository {
         params.put("month", month);
         params.put("year", year);
         return jdbcTemplate.query(getForMonthSql, params, new EventRowMapper());
+    }
+
+    public List<Event> getEventsByPetMonth(int petId, int month, int year) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("petId", petId);
+        params.put("month", month);
+        params.put("year", year);
+        return jdbcTemplate.query(getForPetMonthSql, params, new EventRowMapper());
     }
 
     private class EventRowMapper implements RowMapper<Event> {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EventService} from "../../services/event/event.service";
 import {PetService} from "../../services/pet/pet.service";
 import {ActivatedRoute} from "@angular/router";
@@ -11,25 +11,22 @@ import {ActivatedRoute} from "@angular/router";
 export class ChartsComponent implements OnInit {
 
   eventType: string = 'Weight';
+  currentPetId: number;
   data: any[] = [];
   customColors: any[] = [];
-  included: number[] = [];
   pets: any[];
 
-  constructor(private eventService: EventService, private petService: PetService, private route: ActivatedRoute) { }
+  constructor(private eventService: EventService, private petService: PetService, private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      if (params['initialPet']) {
-        this.included.push(params['initialPet']);
-        this.getPets();
-      } else {
-        this.getPets();
-      }
+      this.currentPetId = params['initialPet'] || 0;
+      this.getPets();
     });
   }
 
-  getData(petId: number, petName: string) {
+  getData(petId: number) {
     this.eventService.getEvents(petId, this.eventType).subscribe(resp => {
       if (resp) {
         console.log(resp);
@@ -39,60 +36,63 @@ export class ChartsComponent implements OnInit {
           series.push({name: new Date(element.date), value: element.data});
         });
         if (series.length > 0) {
-          this.data.push({name: petName, series: series});
-          this.data = [...this.data];
+          this.data.push({name: this.pets[this.findArrayIndex(this.pets, petId)].name, series: series});
+          let color = this.pets[this.findArrayIndex(this.pets, petId)].color || 'black';
+          if (color) {
+            this.customColors.push({name: this.pets[this.findArrayIndex(this.pets, petId)].name, value: color});
+          }
           console.log(this.data);
         }
+        this.data = [...this.data];
+        this.customColors = [...this.customColors];
       }
     });
+  }
+
+  getEvents() {
+    this.data = [];
+    this.customColors = [];
+    if (this.currentPetId == 0) {
+      for (var i = 0; i < this.pets.length; i += 1) {
+        this.getData(this.pets[i].id);
+      }
+    } else {
+      console.log('trying to get index:' + this.currentPetId);
+      let petIndex = this.findArrayIndex(this.pets, this.currentPetId);
+      console.log('petIndex:' + petIndex);
+      console.log(this.pets);
+      this.getData(this.pets[petIndex].id);
+    }
   }
 
   getPets() {
     this.petService.getPets(1).subscribe(resp => {
       if (resp) {
         this.pets = resp;
-        if (this.included.length > 0) {
-          for (var i = 0; i < this.pets.length; i += 1) {
-            if (this.included.includes(this.pets[i].id)) {
-              this.getData(this.pets[i].id, this.pets[i].name);
-            }
-          }
-        } else {
-          for (var i = 0; i < this.pets.length; i += 1) {
-            this.included.push(this.pets[i].id);
-            this.getData(this.pets[i].id, this.pets[i].name);
-          }
-        }
+        this.getEvents();
       }
     });
   }
 
-  findArrayIndex(data: any[], name: string) {
+  findArrayIndex(data: any[], petId: number) {
     for (var i = 0; i < data.length; i+= 1) {
-      if (data[i]['name'] === name) {
+      if (data[i].id == petId) {
         return i;
       }
     }
     return -1;
   }
 
-  toggleCheck(id: number, name: string, checked: boolean) {
-    console.log(name + ' ' + checked);
-    console.log(this.included);
-    if (checked) {
-      if (!this.included.includes(id)) {
-        this.included.push(id);
-        this.getData(id, name);
-      }
-    } else {
-      if (this.included.includes(id)) {
-        this.included.splice(this.included.indexOf(id), 1);
-        if (this.findArrayIndex(this.data, name) != -1) {
-          this.data.splice(this.findArrayIndex(this.data, name), 1);
-          this.data = [...this.data];
-        }
-      }
-    }
+  petChanged(petId: number) {
+    console.log('petChanged');
+    this.currentPetId = petId;
+    this.getEvents();
+  }
+
+  typeChanged(type: string) {
+    console.log('typeChanged');
+    this.eventType = type;
+    this.getEvents();
   }
 
 }

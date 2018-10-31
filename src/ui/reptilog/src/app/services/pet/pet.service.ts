@@ -7,6 +7,8 @@ export class PetService {
 
   httpOptions: any;
 
+  public petInContext:number = 0;
+
   constructor(private http: HttpClient) {
     this.httpOptions = {
       headers: new HttpHeaders({

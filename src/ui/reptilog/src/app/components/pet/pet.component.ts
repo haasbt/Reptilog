@@ -28,6 +28,7 @@ export class PetComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params['petId']) {
         this.petId = params['petId'];
+        this.petService.petInContext = this.petId;
         this.notesForm = this.fb.group({
           petId:[this.petId],
           notes: ['']

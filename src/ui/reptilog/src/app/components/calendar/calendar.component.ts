@@ -38,14 +38,15 @@ export class CalendarComponent implements OnInit {
   }
 
   viewDateChange() {
-
+    this.getEvents();
   }
 
   getEvents() {
     let month = this.viewDate.getMonth() + 1;
     let year = this.viewDate.getFullYear();
-    this.eventService.getEventsByMonth(1, month, year).subscribe(resp => {
+    this.eventService.getEventsByMonth(1, this.currentPetId, month, year).subscribe(resp => {
       if (resp) {
+        this.events = [];
         resp.forEach(element => {
           let petIndex = this.findArrayIndex(this.pets, element.petId);
           this.events.push({title: this.formatEventTitle(element, petIndex),
@@ -94,7 +95,8 @@ export class CalendarComponent implements OnInit {
   }
 
   petChanged(petId: number) {
-
+    this.currentPetId = petId;
+    this.getEvents();
   }
 
   beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
@@ -105,7 +107,7 @@ export class CalendarComponent implements OnInit {
 
   findArrayIndex(data: any[], petId: number) {
     for (var i = 0; i < data.length; i+= 1) {
-      if (data[i]['id'] === petId) {
+      if (data[i].id === petId) {
         return i;
       }
     }

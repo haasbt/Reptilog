@@ -1,12 +1,18 @@
 <div class="col col-xs-10 text-center div-bottom-padding bordered bg-white">
   <div *ngIf="data && data.length > 0" style="display: grid; min-height: 300px">
-    <ngx-charts-line-chart [results]="data" [xAxis]="true" [yAxis]="true" [autoScale]="true">
+    <ngx-charts-line-chart [results]="data" [xAxis]="true" [yAxis]="true" [autoScale]="true" [customColors]="customColors">
     </ngx-charts-line-chart>
   </div>
-  <div *ngIf="pets" class="row ml-3" style="display: grid">
-    <div *ngFor="let p of pets" class="mr-2 text-left" style="white-space: nowrap">
-      <input type="checkbox" (change)="toggleCheck(p.id, p.name, $event.target.checked)" [checked]="included.includes(p.id)">
-      <label>{{p.name}}</label>
-    </div>
+  <div>
+    <select type="text" (change)="typeChanged($event.target.value)">
+      <option value="Weight" [selected]="eventType == 'Weight'">Weight</option>
+      <option value="Length" [selected]="eventType == 'Length'">Length</option>
+    </select>
+  </div>
+  <div *ngIf="pets">
+    <select type="number" (change)="petChanged($event.target.value)">
+      <option value=0 [selected]="selectedPet == 0">All</option>
+      <option *ngFor="let p of pets" value="{{p.id}}" [selected]="selectedPet == p.id">{{p.name}}</option>
+    </select>
   </div>
 </div>
