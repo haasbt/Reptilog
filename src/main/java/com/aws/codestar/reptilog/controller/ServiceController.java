@@ -85,4 +85,10 @@ public class ServiceController {
     List<Event> getEvents(HttpServletRequest request, @PathVariable("petId") int petId, @PathVariable("eventType") String eventType) {
         return eventRepo.getEventsByPet(eventType, petId);
     }
+
+    @RequestMapping(value = "/api/get-events-by-month/{userId}/{month}/{year}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    List<Event> getEventsByMonth(HttpServletRequest request, @PathVariable("userId") int userId, @PathVariable("month") int month, @PathVariable("year") int year) {
+        return eventRepo.getEventsByMonth(userId, month, year);
+    }
 }

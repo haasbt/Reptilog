@@ -18,11 +18,11 @@
     </div>
 
     <div class="row">
-      <a class="col mr-2 ml-3 btn btn-secondary" (click)="setEventType('Feeding')" data-toggle="modal" data-target="#eventModal">F</a>
-      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Shedding')" data-toggle="modal" data-target="#eventModal">S</a>
-      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Weight')" data-toggle="modal" data-target="#eventModal">W</a>
-      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Length')" data-toggle="modal" data-target="#eventModal">L</a>
-      <a class="col mr-3 btn btn-secondary" (click)="setEventType('Poop')" data-toggle="modal" data-target="#eventModal">P</a>
+      <a class="col mr-2 ml-3 btn btn-secondary" (click)="setEventType('Feeding')" data-toggle="modal" data-target="#eventModal"><i class="fas fa-utensils" style="color: white"></i></a>
+      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Shedding')" data-toggle="modal" data-target="#eventModal"><i class="fab fa-phoenix-framework" style="color: white"></i></a>
+      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Weight')" data-toggle="modal" data-target="#eventModal"><i class="fas fa-weight" style="color: white"></i></a>
+      <a class="col mr-2 btn btn-secondary" (click)="setEventType('Length')" data-toggle="modal" data-target="#eventModal"><i class="fas fa-ruler" style="color: white"></i></a>
+      <a class="col mr-3 btn btn-secondary" (click)="setEventType('Poop')" data-toggle="modal" data-target="#eventModal"><i class="fas fa-poop" style="color: white"></i></a>
     </div>
     <hr>
     <form [formGroup]="notesForm" novalidate>
@@ -31,8 +31,6 @@
         <textarea class="form-control" [readonly]="!editingNotes" style="width: 100%; height: 100%" id="notes" formControlName="notes"></textarea>
       </fieldset>
     </form>
-    <!--<h5 class="text-left">Notes</h5>
-    <textarea #notes [readonly]="!editingNotes" style="width: 100%; height: 100%">{{pet.notes}}</textarea>-->
     <a *ngIf="!editingNotes" class="btn btn-block btn-warning" (click)="toggleNoteEdit()">Edit Notes</a>
     <div *ngIf="editingNotes" class="row">
       <a class="col mr-2 ml-3 btn btn-danger" (click)="toggleNoteEdit()">Cancel Edit</a>

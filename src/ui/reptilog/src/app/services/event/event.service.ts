@@ -25,4 +25,9 @@ export class EventService {
     return this.http.get(endpoint, this.httpOptions);
   }
 
+  getEventsByMonth(userId: number, month: number, year: number): Observable<any> {
+    const endpoint = 'api/get-events-by-month/' + userId + '/' + month + '/' + year;
+    return this.http.get(endpoint, this.httpOptions);
+  }
+
 }

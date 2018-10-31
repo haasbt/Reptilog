@@ -17,92 +17,7 @@ export class CalendarComponent implements OnInit {
   currentPetId: number;
   pets: any[];
 
-  events: any[] = [
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    },
-    {
-      title: 'Test 1',
-      color: {primary: "#86b200"},
-      start: new Date(),
-      cssClass: 'fas fa-weight'
-    }
-  ];
+  events: any[] = [];
 
   constructor(private eventService: EventService, private petService: PetService, private route: ActivatedRoute) { }
 
@@ -117,12 +32,65 @@ export class CalendarComponent implements OnInit {
     this.petService.getPets(1).subscribe(resp => {
       if (resp) {
         this.pets = resp;
+        this.getEvents();
       }
     });
   }
 
-  viewDateChange(viewDate: Date) {
+  viewDateChange() {
 
+  }
+
+  getEvents() {
+    let month = this.viewDate.getMonth() + 1;
+    let year = this.viewDate.getFullYear();
+    this.eventService.getEventsByMonth(1, month, year).subscribe(resp => {
+      if (resp) {
+        resp.forEach(element => {
+          let petIndex = this.findArrayIndex(this.pets, element.petId);
+          this.events.push({title: this.formatEventTitle(element, petIndex),
+                            color: {primary: this.pets[petIndex].color || 'black'},
+                            start: new Date(element.date),
+                            cssClass: this.getEventIcon(element.type)});
+        });
+        this.events = [...this.events];
+      }
+    });
+  }
+
+  formatEventTitle(event: any, petIndex: number): string {
+    let title = this.pets[petIndex].name + ' - ' + event.type;
+    if (event.type === 'Weight' || event.type === 'Length') {
+      title += ': ' + event.data;
+    }
+    return title;
+  }
+
+  getEventIcon(eventType: string): string {
+    let icon = '';
+    switch (eventType) {
+      case 'Feeding': {
+        icon = 'fas fa-utensils';
+        break;
+      }
+      case 'Length': {
+        icon = 'fas fa-ruler';
+        break;
+      }
+      case 'Poop': {
+        icon = 'fas fa-poop';
+        break;
+      }
+      case 'Shedding': {
+        icon = 'fab fa-phoenix-framework';
+        break;
+      }
+      case 'Weight': {
+        icon = 'fas fa-weight';
+        break;
+      }
+    }
+    return icon;
   }
 
   petChanged(petId: number) {
@@ -133,6 +101,15 @@ export class CalendarComponent implements OnInit {
     body.forEach(day => {
       day.cssClass = 'cell-fix';
     });
+  }
+
+  findArrayIndex(data: any[], petId: number) {
+    for (var i = 0; i < data.length; i+= 1) {
+      if (data[i]['id'] === petId) {
+        return i;
+      }
+    }
+    return -1;
   }
 
 }

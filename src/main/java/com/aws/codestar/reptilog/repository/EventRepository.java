@@ -22,7 +22,8 @@ public class EventRepository {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     static final String insertSql;
-    static final String getSql;
+    static final String getForGraphSql;
+    static final String getForMonthSql;
     static final String updateSql;
     static final String deleteSql;
 
@@ -33,11 +34,18 @@ public class EventRepository {
                 "values\n" +
                 "(:petId, :userId, :eventType, :eventData, to_date(:eventDate, 'YYYY-MM-DD'), :eventNotes)";
 
-        getSql = "select event_id, pet_id, user_id, event_type, event_data, event_date, event_notes\n" +
+        getForGraphSql = "select event_id, pet_id, user_id, event_type, event_data, event_date, event_notes\n" +
                     "from events\n" +
                     "where pet_id = :petId\n" +
                     "and event_type = :eventType\n" +
                     "order by event_date";
+
+        getForMonthSql = "select event_id, pet_id, user_id, event_type, event_data, event_date, event_notes\n" +
+                "from events\n" +
+                "where user_id = :userId\n" +
+                "and extract(month from event_date) = :month\n" +
+                "and extract(year from event_date) = :year\n" +
+                "order by event_date, pet_id, event_type";
 
         updateSql = "";
 
@@ -63,7 +71,15 @@ public class EventRepository {
         Map<String, Object> params = new HashMap<>();
         params.put("petId", petId);
         params.put("eventType", eventType);
-        return jdbcTemplate.query(getSql, params, new EventRowMapper());
+        return jdbcTemplate.query(getForGraphSql, params, new EventRowMapper());
+    }
+
+    public List<Event> getEventsByMonth(int userId, int month, int year) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", userId);
+        params.put("month", month);
+        params.put("year", year);
+        return jdbcTemplate.query(getForMonthSql, params, new EventRowMapper());
     }
 
     private class EventRowMapper implements RowMapper<Event> {
