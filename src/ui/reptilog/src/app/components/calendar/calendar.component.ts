@@ -3,6 +3,7 @@ import {PetService} from "../../services/pet/pet.service";
 import {EventService} from "../../services/event/event.service";
 import {ActivatedRoute} from "@angular/router";
 import {CalendarMonthViewDay} from "angular-calendar";
+import {isSameMonth, isSameDay} from "date-fns";
 
 @Component({
   selector: 'app-calendar',
@@ -16,8 +17,8 @@ export class CalendarComponent implements OnInit {
   view: string = 'month';
   currentPetId: number;
   pets: any[];
-
   events: any[] = [];
+  activeDayIsOpen: boolean = false;
 
   constructor(private eventService: EventService, private petService: PetService, private route: ActivatedRoute) { }
 
@@ -101,8 +102,25 @@ export class CalendarComponent implements OnInit {
 
   beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
     body.forEach(day => {
+      if (isSameDay(day.date, this.viewDate) && day.events.length > 0) {
+        this.activeDayIsOpen = true;
+      }
       day.cssClass = 'cell-fix';
     });
+  }
+
+  dayClicked({ date, events }: { date: Date; events: any[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+      }
+      this.viewDate = date;
+    }
   }
 
   findArrayIndex(data: any[], petId: number) {

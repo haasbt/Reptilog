@@ -43,8 +43,10 @@
       <mwl-calendar-month-view
         [viewDate]="viewDate"
         [events]="events"
-        [activeDayIsOpen]="true"
-        [cellTemplate]="defaultTemplate"
+        [activeDayIsOpen]="activeDayIsOpen"
+        [cellTemplate]="customCellTemplate"
+        [openDayEventsTemplate]="customEventViewTemplate"
+        (dayClicked)="dayClicked($event.day)"
         (beforeViewRender)="beforeMonthViewRender($event)">
       </mwl-calendar-month-view>
     </div>
@@ -52,7 +54,7 @@
 </div>
 
 <ng-template
-  #defaultTemplate
+  #customCellTemplate
   let-day="day"
   let-openDay="openDay"
   let-locale="locale"
@@ -82,6 +84,30 @@
       [dropData]="{event: event}"
       [dragAxis]="{x: event.draggable, y: event.draggable}"
       (mwlClick)="onEventClick($event, event)">
+    </div>
+  </div>
+</ng-template>
+
+<ng-template
+  #customEventViewTemplate
+  let-events="events"
+  let-eventClicked="eventClicked">
+  <div class="text-left col">
+    <div
+      class="row"
+      *ngFor="let event of events"
+      [style.color]="event.color.primary"
+      [ngClass]="event?.cssClass"
+      mwlDraggable
+      [dropData]="{event: event}"
+      [dragAxis]="{x: event.draggable, y: event.draggable}">
+      <mwl-calendar-event-title
+        class="cal-event-title"
+        [event]="event"
+        view="month"
+        (mwlClick)="eventClicked.emit({event: event})">
+      </mwl-calendar-event-title>
+      <mwl-calendar-event-actions [event]="event"></mwl-calendar-event-actions>
     </div>
   </div>
 </ng-template>

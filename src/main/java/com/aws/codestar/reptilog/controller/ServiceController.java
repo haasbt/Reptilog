@@ -31,9 +31,14 @@ public class ServiceController {
         this.eventRepo = eventRepo;
     }
 
-    @RequestMapping(value = {"/pets", "/pets/*", "/charts", "/charts/*", "/calendar", "/calendar/*"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String home() {
-        return "forward:index.html";
+        return "index.html";
+    }
+
+    @RequestMapping(value = {"/pets", "/pets/*", "/charts", "/charts/*", "/calendar", "/calendar/*"}, method = RequestMethod.GET)
+    public String redirect() {
+        return "forward:/";
     }
 
     @RequestMapping(value = "/api/get-pets/{userId}", method = RequestMethod.GET, produces = "application/json")
