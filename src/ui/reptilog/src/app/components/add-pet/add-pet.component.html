@@ -10,13 +10,13 @@
       <input class="custom-hide" type="file" accept="image/jpg, image/jpeg, image/png" capture="capture" id="image"
              (change)="onFileChange($event.target.files[0])">
       <label *ngIf="!hasImage && !imageUpload" for="image" class="btn btn-warning btn-block">Upload Image</label>
-      <a *ngIf="imageUpload" class="col mr-2 ml-3 btn btn-danger" (click)="clearImageUpload()">Undo</a>
+      <label *ngIf="imageUpload" class="col btn btn-danger btn-block" (click)="clearImageUpload()">Undo</label>
       <div *ngIf="hasImage && !imageUpload && !deleteImage" class="row">
-        <a class="col mr-2 ml-3 btn btn-danger" (click)="markImageForDeletion()">Delete Image</a>
+        <label class="col mr-2 ml-3 btn btn-danger" (click)="markImageForDeletion()">Delete Image</label>
         <label for="image" class="col mr-3 btn btn-warning">Upload Image</label>
       </div>
       <div *ngIf="hasImage && !imageUpload && deleteImage" class="row">
-        <a class="col mr-2 ml-3 btn btn-danger" (click)="undoDelete()">Undo Delete</a>
+        <label class="col mr-2 ml-3 btn btn-danger btn-block" (click)="undoDelete()">Undo Delete</label>
         <label for="image" class="col mr-3 btn btn-warning">Upload Image</label>
       </div>
     </fieldset>
@@ -52,6 +52,5 @@
   </div>
   <div class="col">
     <button class="btn btn-success btn-block" (click)="submit()" [disabled]="!petForm.valid">Submit</button>
-
   </div>
 </div>

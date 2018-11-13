@@ -38,7 +38,7 @@ export class AddPetComponent implements OnInit {
 
   ngOnInit() {
     this.petForm = this.fb.group({
-      petId:[this.petId || ''],
+      petId: [this.petId || ''],
       userId: ['1'],
       name: [this.petName || '', Validators.required],
       type: [this.petType || '', Validators.required],
@@ -49,6 +49,8 @@ export class AddPetComponent implements OnInit {
       notes: [this.notes || ''],
       image: [this.image || '']
     });
+    this.imageUpload = false;
+    this.deleteImage = false;
     if (this.image) {
       this.hasImage = true;
       this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.image;
@@ -73,25 +75,36 @@ export class AddPetComponent implements OnInit {
       this.petService.updatePet(this.petForm.value).subscribe(resp => {
         if (resp && resp.success === true) {
           if (this.imageUpload || this.deleteImage) {
-            this.awsService.deleteFromAWS(this.petId, this.image);
+            this.awsService.deleteFromAWS(this.petId, this.image).then(data => {
+              if (this.imageUpload) {
+                this.awsService.uploadToAWS(this.petId, this.imageUpload).then(data => {
+                  this.created.emit(true);
+                  this.closeModal.nativeElement.click();
+                }, err => {
+                  alert(err);
+                });
+              } else {
+                this.created.emit(true);
+                this.closeModal.nativeElement.click();
+              }
+            }, err => {
+              alert(err);
+            });
           }
-          if (this.imageUpload) {
-            this.awsService.uploadToAWS(this.petId, this.imageUpload);
-          }
-          this.created.emit(true);
-          this.closeModal.nativeElement.click();
-          }
-
+        }
       });
     } else {
       this.petService.addPet(this.petForm.value).subscribe(resp => {
         if (resp && resp.success === true) {
           this.petId = resp.petId;
           if (this.imageUpload) {
-          this.awsService.uploadToAWS(this.petId, this.imageUpload);
+            this.awsService.uploadToAWS(this.petId, this.imageUpload).then(data => {
+              this.created.emit(true);
+              this.closeModal.nativeElement.click();
+            }, err => {
+              alert(err);
+            });
           }
-          this.created.emit(true);
-          this.closeModal.nativeElement.click();
         }
       });
     }
@@ -99,9 +112,11 @@ export class AddPetComponent implements OnInit {
 
   clearImageUpload() {
     if (this.hasImage) {
-    this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.image;
+      this.petForm.controls.image.setValue(this.image);
+      this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.image;
     } else {
-    this.photo = this.defaultPhoto;
+      this.petForm.controls.image.setValue('');
+      this.photo = this.defaultPhoto;
     }
     this.imageUpload = null;
   }
@@ -109,25 +124,27 @@ export class AddPetComponent implements OnInit {
   markImageForDeletion() {
     this.photo = this.defaultPhoto;
     this.deleteImage = true;
+    this.petForm.controls.image.setValue('');
   }
 
   undoDelete() {
     this.deleteImage = false;
     if (this.hasImage) {
+      this.petForm.controls.image.setValue(this.image);
       this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.image;
     } else {
       this.photo = this.defaultPhoto;
     }
   }
 
-  onFileChange(image: any){
-      let reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.photo = e.target.result;
-        this.imageUpload = image;
-        this.petForm.controls.image.setValue(image.name);
-      };
-      reader.readAsDataURL(image);
-      this.deleteImage = false;
-    }
+  onFileChange(image: any) {
+    let reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.photo = e.target.result;
+      this.imageUpload = image;
+      this.petForm.controls.image.setValue(image.name);
+    };
+    reader.readAsDataURL(image);
+    this.deleteImage = false;
+  }
 }

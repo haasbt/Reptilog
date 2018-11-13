@@ -21,6 +21,10 @@ export class PetListComponent implements OnInit {
     this.refresh();
   }
 
+  stupidMethod() {
+
+  }
+
   refresh() {
     this.petService.getPets(this.userId).subscribe(resp => {
       if (resp) {

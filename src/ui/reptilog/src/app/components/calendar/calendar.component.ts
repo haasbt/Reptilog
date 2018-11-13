@@ -20,12 +20,13 @@ export class CalendarComponent implements OnInit {
   events: any[] = [];
   activeDayIsOpen: boolean = false;
 
-  constructor(private eventService: EventService, private petService: PetService, private route: ActivatedRoute) { }
+  constructor(private eventService: EventService, private petService: PetService, private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-        this.currentPetId = params['initialPet'] || 0;
-        this.getPets();
+      this.currentPetId = params['initialPet'] || 0;
+      this.getPets();
     });
   }
 
@@ -50,10 +51,12 @@ export class CalendarComponent implements OnInit {
         this.events = [];
         resp.forEach(element => {
           let petIndex = this.findArrayIndex(this.pets, element.petId);
-          this.events.push({title: this.formatEventTitle(element, petIndex),
-                            color: {primary: this.pets[petIndex].color || 'black'},
-                            start: new Date(element.date),
-                            cssClass: this.getEventIcon(element.type)});
+          this.events.push({
+            title: this.formatEventTitle(element, petIndex),
+            color: {primary: this.pets[petIndex].color || 'black'},
+            start: new Date(element.date),
+            cssClass: this.getEventIcon(element.type)
+          });
         });
         this.events = [...this.events];
       }
@@ -100,7 +103,7 @@ export class CalendarComponent implements OnInit {
     this.getEvents();
   }
 
-  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+  beforeMonthViewRender({body}: { body: CalendarMonthViewDay[] }): void {
     body.forEach(day => {
       if (isSameDay(day.date, this.viewDate) && day.events.length > 0) {
         this.activeDayIsOpen = true;
@@ -109,7 +112,7 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  dayClicked({ date, events }: { date: Date; events: any[] }): void {
+  dayClicked({date, events}: { date: Date; events: any[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -124,12 +127,11 @@ export class CalendarComponent implements OnInit {
   }
 
   findArrayIndex(data: any[], petId: number) {
-    for (var i = 0; i < data.length; i+= 1) {
+    for (var i = 0; i < data.length; i += 1) {
       if (data[i].id === petId) {
         return i;
       }
     }
     return -1;
   }
-
 }

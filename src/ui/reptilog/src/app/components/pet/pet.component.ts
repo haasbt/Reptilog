@@ -44,6 +44,8 @@ export class PetComponent implements OnInit {
         this.pet = resp;
         if (this.pet.image) {
           this.photo = 'https://s3.us-east-2.amazonaws.com/reptilog-images/images/' + this.petId + '/' + this.pet.image;
+        } else  {
+          this.photo = './assets/images/default-pic.png';
         }
         this.originalNotes = this.pet.notes;
         this.notesForm.controls.notes.setValue(this.pet.notes);

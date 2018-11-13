@@ -1,12 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as S3 from 'aws-sdk/clients/s3';
+import {ManagedUpload} from "aws-sdk/lib/s3/managed_upload";
+import {PromiseResult} from "aws-sdk/lib/request";
+import {AWSError} from "aws-sdk";
 
 @Injectable()
 export class AwsService {
 
-  constructor() { }
+  constructor() {
+  }
 
-  uploadToAWS(petId: number, file: any) {
+  uploadToAWS(petId: number, file: any): Promise<ManagedUpload.SendData> {
     const bucket = new S3(
       {
         accessKeyId: 'AKIAIW7NCOCKLWMUECUA',
@@ -21,14 +25,10 @@ export class AwsService {
       Body: file
     };
 
-    bucket.upload(params, function (err) {
-      if (err) {
-        alert(err)
-      }
-    });
+    return bucket.upload(params).promise();
   }
 
-  deleteFromAWS(petId: number, fileName: string) {
+  deleteFromAWS(petId: number, fileName: string): Promise<PromiseResult<S3.Types.DeleteObjectOutput, AWSError>> {
     const bucket = new S3(
       {
         accessKeyId: 'AKIAIW7NCOCKLWMUECUA',
@@ -42,11 +42,7 @@ export class AwsService {
       Key: 'images/' + petId + '/' + fileName
     };
 
-    bucket.deleteObject(params, function (err) {
-      if (err) {
-        alert(err)
-      }
-    });
-  }
+    return bucket.deleteObject(params).promise();
 
+  }
 }
