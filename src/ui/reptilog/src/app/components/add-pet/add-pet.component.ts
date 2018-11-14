@@ -136,7 +136,7 @@ export class AddPetComponent implements OnInit {
       this.photo = this.defaultPhoto;
     }
   }
-//just need to build
+
   onFileChange(image: any) {
     let reader = new FileReader();
     reader.onload = (e: any) => {
