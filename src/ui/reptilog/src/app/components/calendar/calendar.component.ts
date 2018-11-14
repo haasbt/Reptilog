@@ -4,6 +4,8 @@ import {EventService} from "../../services/event/event.service";
 import {ActivatedRoute} from "@angular/router";
 import {CalendarMonthViewDay} from "angular-calendar";
 import {isSameMonth, isSameDay} from "date-fns";
+import {D} from "@angular/core/src/render3";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-calendar',
@@ -54,7 +56,7 @@ export class CalendarComponent implements OnInit {
           this.events.push({
             title: this.formatEventTitle(element, petIndex),
             color: {primary: this.pets[petIndex].color || 'black'},
-            start: new Date(element.date),
+            start: new Date(element.date.replace('-', '/')),
             cssClass: this.getEventIcon(element.type)
           });
         });
